@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <PreferenceCategory app:title="Envio de SMS">
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="Enviar SMS automático"
+            app:summary="La app enviará automaticamente un SMS a la gestante recordando realizarse los U/S Genéticos "/>
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

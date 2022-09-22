@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark">
+
+    <View
+        android:id="@+id/v_header_ic_background"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/header_backgroung_ic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="40dp"/>
+    <ImageView
+        android:id="@+id/iv_consulta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_header_top"
+        app:layout_constraintStart_toStartOf="@id/v_header_ic_background"
+        app:layout_constraintTop_toTopOf="@id/v_header_ic_background"
+        app:layout_constraintBottom_toBottomOf="@id/v_header_ic_background"
+        android:contentDescription="@string/header_logo"
+        android:padding="40dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

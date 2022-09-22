@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <!--Home-->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.devj.gestantescontrol.ui.view.HomeFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_go_to_Detail"
+            app:destination="@id/gestanteDetailFragment"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/home_to_edicion"
+            app:destination="@id/edicionFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <!--Detalles-->
+    <fragment
+        android:id="@+id/gestanteDetailFragment"
+        android:name="com.devj.gestantescontrol.ui.view.GestanteDetailFragment"
+        android:label="Detalles"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/detail_to_edicion"
+            app:destination="@id/edicionFragment"
+            app:popUpTo="@id/homeFragment" />
+        <argument
+            android:name="gestante"
+            app:argType="com.devj.gestantescontrol.ui.GestanteParcelable"/>
+
+
+
+
+    </fragment>
+
+    <!--Edicion-->
+
+    <fragment
+        android:id="@+id/edicionFragment"
+        android:name="com.devj.gestantescontrol.ui.view.EdicionFragment"
+        android:label="">
+        <action
+            android:id="@+id/action_edicionFragment_to_calendarioFUMFragment"
+            app:destination="@id/calendarioFUMFragment"
+            app:popUpTo="@id/homeFragment"
+
+            />
+        <action
+            android:id="@+id/action_edicionFragment_to_calendarioUGFragment"
+            app:destination="@id/calendarioUGFragment"
+            app:popUpTo="@id/homeFragment" />
+
+        <argument
+            android:name="id"
+            app:argType="integer"
+            android:defaultValue="0"/>
+
+        <argument
+            android:name="fum"
+            android:defaultValue="0/0/0"
+            app:argType="string" />
+
+        <argument
+            android:name="fug"
+            android:defaultValue="0/0/0"
+            app:argType="string" />
+
+        <argument
+            android:name="fumConfiable"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="cantSemanas"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="cantDias"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="nombre"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="apellidos"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="edad"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="peso"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="talla"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="telefono"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="nota"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="true"/>
+        <argument
+            android:name="foto"
+            app:argType="string"
+            android:defaultValue=""/>
+        <action
+            android:id="@+id/action_edicionFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+
+    <!--Calendario Para FUM-->
+    <fragment
+        android:id="@+id/calendarioFUMFragment"
+        android:name="com.devj.gestantescontrol.ui.view.CalendarioFUMFragment"
+        android:label="">
+        <action
+            android:id="@+id/fum_to_edicion"
+            app:destination="@id/edicionFragment"
+            app:popUpTo="@id/homeFragment"
+
+            />
+        <argument
+            android:name="id"
+            android:defaultValue="0"
+            app:argType="integer"/>
+        <argument
+            android:name="nombre"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="apellidos"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="edad"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="peso"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="talla"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="telefono"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="nota"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="fumConfiable"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="fug"
+            app:argType="string"
+            android:defaultValue="0/0/0"/>
+        <argument
+            android:name="foto"
+            app:argType="string"
+            android:defaultValue=""/>
+
+    </fragment>
+
+    <!--Calendario Para FUG -->
+    <fragment
+        android:id="@+id/calendarioUGFragment"
+        android:name="com.devj.gestantescontrol.ui.view.CalendarioUGFragment"
+        android:label="">
+        <action
+            android:id="@+id/ug_to_edicion"
+            app:destination="@id/edicionFragment"
+            app:popUpTo="@id/homeFragment" />
+        <argument
+            android:name="id"
+            android:defaultValue="0"
+            app:argType="integer"/>
+        <argument
+            android:name="nombre"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="apellidos"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="edad"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="peso"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="talla"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="telefono"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="nota"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="fumConfiable"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <argument
+            android:name="fum"
+            app:argType="string"
+            android:defaultValue="0/0/0"/>
+        <argument
+            android:name="foto"
+            app:argType="string"
+            android:defaultValue=""/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/acercaDeFragment"
+        android:name="com.devj.gestantescontrol.ui.view.AcercaDeFragment"
+        android:label="Acerca de" />
+</navigation>
