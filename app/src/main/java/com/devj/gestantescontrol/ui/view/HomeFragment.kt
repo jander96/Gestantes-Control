@@ -23,7 +23,7 @@ import com.devj.gestantescontrol.ui.viewmodel.HomeViewModelFactory
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-
+/*Este fragment es el encargado de mostrar al usuario la lista de gestantes que se encuentran el la base de datos  */
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private var _binding: FragmentHomeBinding? = null
