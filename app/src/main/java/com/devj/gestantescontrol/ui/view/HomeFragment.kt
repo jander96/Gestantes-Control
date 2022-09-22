@@ -48,11 +48,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         recyclerView = binding.contenido.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = GestantesAdapter { gestante->
-
-
-            navController.navigate(HomeFragmentDirections.actionGoToDetail(gestante.toGestanteParcelable()))
+        val adapter = GestantesAdapter { it->
+            navController.navigate(HomeFragmentDirections.actionGoToDetail(it.toGestanteParcelable()))
         }
+        
         recyclerView.adapter = adapter
 
        viewModel.gestantesList.observe(this.viewLifecycleOwner){ gestanteList->
