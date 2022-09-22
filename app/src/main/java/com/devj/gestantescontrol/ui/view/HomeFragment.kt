@@ -87,7 +87,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     }
-
+    //Sobreescribo el metodo para q al seleccionar el item se navegue hasta
+    // el destino con la id indicada
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.acercaDeFragment -> {
