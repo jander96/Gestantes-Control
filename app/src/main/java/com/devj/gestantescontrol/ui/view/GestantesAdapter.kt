@@ -40,20 +40,24 @@ class GestantesAdapter(private val fn: (gestante: Gestante) -> Unit) :
         @SuppressLint("SetTextI18n")
         fun bind(gestante: Gestante) {
             with(binding) {
-                if (gestante.foto != "") {
-                    setImageFromBitmap(
-                        getResizeBitmap(
-                            createBitmapFromImageUri(
-                                binding.root.context,
-                                Uri.parse(gestante.foto)
+                try {
+                    if (gestante.foto != "") {
+                        setImageFromBitmap(
+                            getResizeBitmap(
+                                createBitmapFromImageUri(
+                                    binding.root.context,
+                                    Uri.parse(gestante.foto)
+                                ),
+                                100,
+                                100,
+                                true
                             ),
-                            100,
-                            100,
-                            true
-                        ),
-                        iVGestante
-                    )
-                } else {
+                            iVGestante
+                        )
+                    } else {
+                        iVGestante.setImageResource(R.drawable.ic_baseline_person_pin_24)
+                    }
+                } catch (e: Exception) {
                     iVGestante.setImageResource(R.drawable.ic_baseline_person_pin_24)
                 }
                 tvNombre.text = "${gestante.nombre} ${gestante.apellidos}"

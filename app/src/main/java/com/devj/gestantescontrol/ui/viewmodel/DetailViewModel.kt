@@ -70,7 +70,7 @@ class DetailViewModel(
     @SuppressLint("SetTextI18n")
     fun bind(binding: FragmentDetailBinding, gestante: Gestante) {
         binding.apply {
-            if (gestante.foto != "") {
+            try {if (gestante.foto != "") {
                 setImageFromBitmap(
                     getResizeBitmap(
                         createBitmapFromImageUri(binding.root.context, Uri.parse(gestante.foto)),
@@ -81,6 +81,9 @@ class DetailViewModel(
                     foto
                 )
             } else {
+                foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
+            }
+            }catch(e:Exception){
                 foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
             }
             tvNombreApellidos.text = if (gestante.nombre != null || gestante.apellidos != null) {
