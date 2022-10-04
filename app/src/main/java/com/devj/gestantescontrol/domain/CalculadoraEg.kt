@@ -1,6 +1,6 @@
-package com.devj.gestantescontrol.data.model
+package com.devj.gestantescontrol.domain
 
-import java.text.SimpleDateFormat
+import  java.text.SimpleDateFormat
 import java.util.*
 
 private const val CANT_DIAS_X_SEMANA = 7
@@ -18,7 +18,7 @@ class CalculadoraEg(
         val diasDesdeFUM = CalculadoraFechas.getDiferenciaDias(fecha)
         edadGestacionalFUM =
             "${diasDesdeFUM / CANT_DIAS_X_SEMANA}." + "${diasDesdeFUM % CANT_DIAS_X_SEMANA}"
-        return if (edadGestacionalFUM.toFloat() < 42f){
+        return if (edadGestacionalFUM.toFloat() < 42f) {
             edadGestacionalFUM
         } else " Postérmino"
     }
@@ -38,9 +38,9 @@ class CalculadoraEg(
             else cantTotalDias - CANT_DIAS_X_SEMANA
 
         edadGestacionalFUG = "${cantTotalSemanas}." + "$diasDefinitivos"
-        return if( edadGestacionalFUG.toFloat() < 42f){
+        return if (edadGestacionalFUG.toFloat() < 42f) {
             edadGestacionalFUG
-        }else{
+        } else {
             " Postérmino"
         }
     }
@@ -83,12 +83,12 @@ object CalculadoraFechas {
         val calendar = Calendar.getInstance()
         val fechaFormat = SimpleDateFormat("dd/MM/yyyyy").parse(fecha)
         calendar.time = fechaFormat
-        calendar.add(Calendar.WEEK_OF_YEAR,cantSemanas)
+        calendar.add(Calendar.WEEK_OF_YEAR, cantSemanas)
 
         val dia = calendar.get(Calendar.DAY_OF_MONTH)
         val mes = calendar.get(Calendar.MONTH)
         val ano = calendar.get(Calendar.YEAR)
-        return "${dia}/${mes+1}/${ano}"
+        return "${dia}/${mes + 1}/${ano}"
 
     }
 }

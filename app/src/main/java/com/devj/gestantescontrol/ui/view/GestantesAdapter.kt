@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.devj.gestantescontrol.R
-import com.devj.gestantescontrol.core.createBitmapFromImageUri
+import com.devj.gestantescontrol.core.createInternalFileFromImageUri
+import com.devj.gestantescontrol.core.getBitmapFromFile
 import com.devj.gestantescontrol.core.getResizeBitmap
 import com.devj.gestantescontrol.core.setImageFromBitmap
-import com.devj.gestantescontrol.data.model.CalculadoraEg
+import com.devj.gestantescontrol.domain.CalculadoraEg
 import com.devj.gestantescontrol.databinding.GestanteItemBinding
 import com.devj.gestantescontrol.domain.Gestante
 
@@ -42,18 +43,7 @@ class GestantesAdapter(private val fn: (gestante: Gestante) -> Unit) :
             with(binding) {
                 try {
                     if (gestante.foto != "") {
-                        setImageFromBitmap(
-                            getResizeBitmap(
-                                createBitmapFromImageUri(
-                                    binding.root.context,
-                                    Uri.parse(gestante.foto)
-                                ),
-                                100,
-                                100,
-                                true
-                            ),
-                            iVGestante
-                        )
+                    iVGestante.setImageBitmap(getBitmapFromFile(binding.root.context,gestante.foto))
                     } else {
                         iVGestante.setImageResource(R.drawable.ic_baseline_person_pin_24)
                     }

@@ -2,13 +2,17 @@ package com.devj.gestantescontrol.ui.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import com.devj.gestantescontrol.R
+import com.devj.gestantescontrol.core.getBitmapFromFile
 import com.devj.gestantescontrol.data.database.entities.GestanteEntity
 import com.devj.gestantescontrol.databinding.FragmentEdicionBinding
 import com.devj.gestantescontrol.domain.*
@@ -26,7 +30,7 @@ class EdicionViewModel(
 
     private var _gestante = MutableLiveData<GestanteEntity>()
     val gestante: LiveData<GestanteEntity> get() = _gestante
-    var fotoString = ""
+    var fotoFileName = ""
 
 
     private fun onCreateGestante() {
@@ -53,8 +57,8 @@ class EdicionViewModel(
                 binding.etNotas!!.text.toString()
             } else "",
             fumConfiable = binding.cbFumConfiable!!.isChecked,
-            foto = if (fotoString != "") {
-                fotoString
+            foto = if (fotoFileName != "") {
+                fotoFileName
             } else args.foto
 
         )
@@ -78,7 +82,9 @@ class EdicionViewModel(
     }
 
 
-    fun rellenarCamposArgs() {
+
+    fun rellenarCamposArgs(contexto: Context) {
+
         binding.etNombre.setText(args.nombre)
         binding.etApellidos.setText(args.apellidos)
         binding.etEdad.setText(args.edad)
@@ -88,8 +94,8 @@ class EdicionViewModel(
         binding.etNotas?.setText(args.nota)
         binding.cbFumConfiable?.isChecked = args.fumConfiable
         when {
-            fotoString != "" -> binding.foto.setImageURI(Uri.parse(fotoString))
-            args.foto != "" -> binding.foto.setImageURI(Uri.parse(args.foto))
+            fotoFileName != "" -> binding.foto.setImageBitmap(getBitmapFromFile(contexto,fotoFileName))
+            args.foto != "" -> binding.foto.setImageBitmap(getBitmapFromFile(contexto,args.foto))
             else -> binding.foto.setImageResource(R.drawable.ic_image_search)
         }
     }
@@ -119,10 +125,10 @@ class EdicionViewModel(
                 binding.etNotas?.text.toString(),
                 binding.cbFumConfiable?.isChecked!!,
                 args.fug,
-                if (fotoString == "") {
+                if (fotoFileName == "") {
                     args.foto
                 } else {
-                    fotoString
+                    fotoFileName
                 }
             )
         )
@@ -142,10 +148,10 @@ class EdicionViewModel(
                 binding.etNotas?.text.toString(),
                 binding.cbFumConfiable?.isChecked!!,
                 args.fum,
-                if (fotoString == "") {
+                if (fotoFileName == "") {
                     args.foto
                 } else {
-                    fotoString
+                    fotoFileName
                 }
             )
         )
@@ -177,14 +183,6 @@ class EdicionViewModel(
         launcher.launch(intent)
     }
 
-    fun pickImage(launcher: ActivityResultLauncher<Intent>) {
-        val intent = Intent(
-            Intent.ACTION_OPEN_DOCUMENT
-        ).apply {
-            type = "image/*"
-        }
-        launcher.launch(intent)
-    }
 
 
     fun getContact(contexto: Context, uri: Uri): String {

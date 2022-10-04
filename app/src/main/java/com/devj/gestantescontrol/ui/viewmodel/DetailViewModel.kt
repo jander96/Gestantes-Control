@@ -7,10 +7,11 @@ import android.net.Uri
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import com.devj.gestantescontrol.R
-import com.devj.gestantescontrol.core.createBitmapFromImageUri
+import com.devj.gestantescontrol.core.createInternalFileFromImageUri
+import com.devj.gestantescontrol.core.getBitmapFromFile
 import com.devj.gestantescontrol.core.getResizeBitmap
 import com.devj.gestantescontrol.core.setImageFromBitmap
-import com.devj.gestantescontrol.data.model.CalculadoraEg
+import com.devj.gestantescontrol.domain.CalculadoraEg
 import com.devj.gestantescontrol.databinding.FragmentDetailBinding
 import com.devj.gestantescontrol.domain.*
 import com.devj.gestantescontrol.ui.view.GestanteDetailFragmentArgs
@@ -71,15 +72,7 @@ class DetailViewModel(
     fun bind(binding: FragmentDetailBinding, gestante: Gestante) {
         binding.apply {
             try {if (gestante.foto != "") {
-                setImageFromBitmap(
-                    getResizeBitmap(
-                        createBitmapFromImageUri(binding.root.context, Uri.parse(gestante.foto)),
-                        75,
-                        75,
-                        true
-                    ),
-                    foto
-                )
+               foto.setImageBitmap(getBitmapFromFile(binding.root.context,gestante.foto))
             } else {
                 foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
             }

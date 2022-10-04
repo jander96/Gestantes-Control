@@ -3,26 +3,26 @@ package com.devj.gestantescontrol.ui.view
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.activity.result.launch
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.devj.gestantescontrol.R
-import com.devj.gestantescontrol.core.createBitmapFromImageUri
-import com.devj.gestantescontrol.core.getResizeBitmap
 import com.devj.gestantescontrol.core.hideKeyboard
-import com.devj.gestantescontrol.core.setImageFromBitmap
 import com.devj.gestantescontrol.databinding.FragmentEdicionBinding
 import com.devj.gestantescontrol.ui.viewmodel.EdicionViewModel
 import com.devj.gestantescontrol.ui.viewmodel.EdicionViewModelFactory
-
+import java.io.File
 
 
 class EdicionFragment : Fragment(R.layout.fragment_edicion) {
@@ -39,32 +39,35 @@ class EdicionFragment : Fragment(R.layout.fragment_edicion) {
         if (it.resultCode == RESULT_OK) {
             // contactUri contiene la ruta al registro del Contacto escogido en la tabla Contacts
             val contactUri = it.data?.data!!
-
             binding.etTelefono!!.setText(viewModel.getContact(requireContext(), contactUri))
         }
     }
-    private val launcherGaleria = registerForActivityResult(StartActivityForResult()) {
-
-
-        if (it.resultCode == RESULT_OK) {
-            val uriFoto = it.data?.data
+    private val launcherGaleria = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+        if (bitmap != null) {
+            val fileName = "photo_gestante" + "${System.currentTimeMillis() / 1000}"
+            binding.foto.setImageBitmap(bitmap)
 
             try {
-             val bitmap = createBitmapFromImageUri(requireContext(),uriFoto!!)
-                setImageFromBitmap(getResizeBitmap(bitmap,360,480,true),binding.foto)
+                //Create file to save photo
+                File(requireContext().filesDir, fileName)
+                requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
+                    .use { fileOutputStream ->
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+                    }
 
             } catch (e: Exception) {
-
+                e.printStackTrace()
             }
 
-            viewModel.fotoString = uriFoto.toString()
-
+            viewModel.fotoFileName = fileName
         }
+
+
     }
     private val requestPermision =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGaranted ->
             when {
-                isGaranted -> viewModel.pickContact( launcherContactos)
+                isGaranted -> viewModel.pickContact(launcherContactos)
                 shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) ->
                     Toast.makeText(
                         requireContext(),
@@ -82,11 +85,11 @@ class EdicionFragment : Fragment(R.layout.fragment_edicion) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("EdicionCycle","On ViewCreated")
+        Log.d("EdicionCycle", "On ViewCreated")
         _binding = FragmentEdicionBinding.bind(view)
         navController = findNavController()
 
-        viewModel.rellenarCamposArgs()
+        viewModel.rellenarCamposArgs(requireContext())
 
         binding.btnFum?.setOnClickListener {
             it.hideKeyboard()
@@ -104,13 +107,13 @@ class EdicionFragment : Fragment(R.layout.fragment_edicion) {
 
         }
         binding.foto.setOnClickListener {
-            viewModel.pickImage(launcherGaleria)
+            launcherGaleria.launch()
         }
 
     }
 
     override fun onDestroy() {
-        Log.d("EdicionCycle","On Destroy")
+        Log.d("EdicionCycle", "On Destroy")
         super.onDestroy()
     }
 
