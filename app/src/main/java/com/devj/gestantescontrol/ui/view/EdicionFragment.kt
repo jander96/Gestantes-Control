@@ -42,28 +42,10 @@ class EdicionFragment : Fragment(R.layout.fragment_edicion) {
             binding.etTelefono!!.setText(viewModel.getContact(requireContext(), contactUri))
         }
     }
-    private val launcherGaleria = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-        if (bitmap != null) {
-            val fileName = "photo_gestante" + "${System.currentTimeMillis() / 1000}"
-            binding.foto.setImageBitmap(bitmap)
-
-            try {
-                //Create file to save photo
-                File(requireContext().filesDir, fileName)
-                requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
-                    .use { fileOutputStream ->
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-                    }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
-            viewModel.fotoFileName = fileName
+    private val launcherGaleria =
+        registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            viewModel.saveBitmaptoInternalStorage(requireContext(), bitmap)
         }
-
-
-    }
     private val requestPermision =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGaranted ->
             when {

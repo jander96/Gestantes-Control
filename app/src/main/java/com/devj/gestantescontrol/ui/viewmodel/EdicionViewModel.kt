@@ -3,12 +3,10 @@ package com.devj.gestantescontrol.ui.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.*
 import androidx.navigation.NavController
 import com.devj.gestantescontrol.R
@@ -21,6 +19,7 @@ import com.devj.gestantescontrol.ui.view.EdicionFragmentDirections
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 
 class EdicionViewModel(
@@ -30,7 +29,7 @@ class EdicionViewModel(
 
     private var _gestante = MutableLiveData<GestanteEntity>()
     val gestante: LiveData<GestanteEntity> get() = _gestante
-    var fotoFileName = ""
+    private var fotoFileName = ""
 
 
     private fun onCreateGestante() {
@@ -82,7 +81,6 @@ class EdicionViewModel(
     }
 
 
-
     fun rellenarCamposArgs(contexto: Context) {
 
         binding.etNombre.setText(args.nombre)
@@ -94,9 +92,14 @@ class EdicionViewModel(
         binding.etNotas?.setText(args.nota)
         binding.cbFumConfiable?.isChecked = args.fumConfiable
         when {
-            fotoFileName != "" -> binding.foto.setImageBitmap(getBitmapFromFile(contexto,fotoFileName))
-            args.foto != "" -> binding.foto.setImageBitmap(getBitmapFromFile(contexto,args.foto))
-            else -> binding.foto.setImageResource(R.drawable.ic_image_search)
+            fotoFileName != "" -> binding.foto.setImageBitmap(
+                getBitmapFromFile(
+                    contexto,
+                    fotoFileName
+                )
+            )
+            args.foto != "" -> binding.foto.setImageBitmap(getBitmapFromFile(contexto, args.foto))
+            else -> binding.foto.setImageResource(R.drawable.ic_camera)
         }
     }
 
@@ -184,7 +187,6 @@ class EdicionViewModel(
     }
 
 
-
     fun getContact(contexto: Context, uri: Uri): String {
         // id representa el ID del contacto en la tabla contact
         var id = ""
@@ -194,13 +196,12 @@ class EdicionViewModel(
 
         // Como ruta especifico la uri que recivo que corresponde
         // con el registro del contacto escogido por la intent
-        val ruta = uri
         // De este registro solo me interesa recuperar el valor q
         // contiene la columna ID
         val projection = arrayOf(ContactsContract.Contacts._ID)
 
         val cursor = contexto.contentResolver.query(
-            ruta,
+            uri,
             projection,
             null,
             null,
@@ -241,6 +242,27 @@ class EdicionViewModel(
 
         return phone.removePrefix("+")
 
+    }
+
+    fun saveBitmaptoInternalStorage(contexto: Context, bitmap: Bitmap?) {
+        if (bitmap != null) {
+            val fileName = "photo_gestante" + "${System.currentTimeMillis() / 1000}"
+            binding.foto.setImageBitmap(bitmap)
+
+            try {
+                //Create file to save photo
+                File(contexto.filesDir, fileName)
+                contexto.openFileOutput(fileName, Context.MODE_PRIVATE)
+                    .use { fileOutputStream ->
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+                    }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            fotoFileName = fileName
+        }
     }
 
 
