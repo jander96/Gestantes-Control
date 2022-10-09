@@ -87,7 +87,7 @@ class GestanteDetailFragment : Fragment(R.layout.fragment_detail) {
            AlertDialog.Builder(it)
        }
         builder?.setTitle("Eliminar")
-            ?.setMessage("¿Estás seguro de eliminar gestante?")
+            ?.setMessage("¿Estás segur@ de eliminar gestante?")
             ?.setPositiveButton("Si"){_,_ ->
                 navController.navigateUp()
                 lifecycleScope.launch {

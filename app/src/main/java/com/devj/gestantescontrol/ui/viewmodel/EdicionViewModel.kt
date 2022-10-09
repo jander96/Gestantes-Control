@@ -107,12 +107,10 @@ class EdicionViewModel(
     private fun btnSaveToch(applicationContext: Context) {
         if (gestante.value?.id == 0) {
             insertarGestante(applicationContext)
-            Toast.makeText(binding.root.context, "Se añadio con exito", Toast.LENGTH_SHORT)
-                .show()
+            createSnackBar("Se añadio con exito")
         } else {
             actualizarGestante(applicationContext)
-            Toast.makeText(binding.root.context, "Se actualizó con exito", Toast.LENGTH_SHORT)
-                .show()
+           createSnackBar("Se actualizó con exito")
         }
     }
 
