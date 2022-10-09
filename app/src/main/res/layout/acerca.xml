@@ -63,7 +63,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Galia Ester Perez Isalgué "
+        android:text="Jander Laffita Orduñez "
         app:layout_constraintStart_toEndOf="@id/desing_title"
         app:layout_constraintTop_toTopOf="@id/desing_title"
         app:layout_constraintBottom_toBottomOf="@id/desing_title"

@@ -16,6 +16,7 @@ import com.devj.gestantescontrol.databinding.FragmentEdicionBinding
 import com.devj.gestantescontrol.domain.*
 import com.devj.gestantescontrol.ui.view.EdicionFragmentArgs
 import com.devj.gestantescontrol.ui.view.EdicionFragmentDirections
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -169,11 +170,11 @@ class EdicionViewModel(
         if (binding.etNombre.text.isEmpty()) {
             binding.inputLayoutNombre.error = "Campo Obligatorio"
         } else if (binding.cbFumConfiable!!.isChecked && args.fum == "0/0/0") {
-            setMenssage("Debe escoger FUM")
+           createSnackBar("Debe escoger FUM")
         } else if (!binding.cbFumConfiable.isChecked && args.fug == "0/0/0" && args.fum == "0/0/0") {
-            setMenssage("Debe escoger FUM o FUG")
+            createSnackBar("Debe escoger FUM o FUG")
         } else if (!binding.cbFumConfiable.isChecked && args.fug == "0/0/0" && args.fum != "0/0/0") {
-            setMenssage("Debe escoger FUG si FUM no es confiable")
+            createSnackBar("Debe escoger FUG si FUM no es confiable")
         } else {
             onCreateGestante()
             btnSaveToch(applicationContext)
@@ -263,6 +264,9 @@ class EdicionViewModel(
 
             fotoFileName = fileName
         }
+    }
+   private  fun createSnackBar(message: String){
+        Snackbar.make(binding.root,message,Snackbar.LENGTH_LONG).show()
     }
 
 
