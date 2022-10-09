@@ -75,6 +75,8 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
     //Lotie
     implementation "com.airbnb.android:lottie:5.2.0"
+    //Splash
+    implementation'androidx.core:core-splashscreen:1.0.0'
 
 
 
