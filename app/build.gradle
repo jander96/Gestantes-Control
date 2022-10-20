@@ -40,6 +40,9 @@ android {
     lintOptions{
         checkReleaseBuilds false
     }
+    kotlinOptions{
+        freeCompilerArgs += "-Xjvm-default=all"
+    }
 }
 
 dependencies {
