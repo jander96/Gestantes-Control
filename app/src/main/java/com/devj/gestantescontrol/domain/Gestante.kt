@@ -1,8 +1,8 @@
 package com.devj.gestantescontrol.domain
 
-import com.devj.gestantescontrol.data.database.entities.GestanteEntity
+import com.devj.gestantescontrol.framework.roomdatabase.entities.GestanteEntity
 import com.devj.gestantescontrol.data.model.GestantesModel
-import com.devj.gestantescontrol.ui.GestanteParcelable
+import com.devj.gestantescontrol.framework.ui.GestanteParcelable
 
 data class Gestante(
     val id:Int,

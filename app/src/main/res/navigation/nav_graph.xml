@@ -8,7 +8,7 @@
     <!--Home-->
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.devj.gestantescontrol.ui.view.HomeFragment"
+        android:name="com.devj.gestantescontrol.framework.ui.view.HomeFragment"
         android:label="Home">
         <action
             android:id="@+id/action_go_to_Detail"
@@ -23,7 +23,7 @@
     <!--Detalles-->
     <fragment
         android:id="@+id/gestanteDetailFragment"
-        android:name="com.devj.gestantescontrol.ui.view.GestanteDetailFragment"
+        android:name="com.devj.gestantescontrol.framework.ui.view.GestanteDetailFragment"
         android:label="Detalles"
         tools:layout="@layout/fragment_detail">
         <action
@@ -32,7 +32,7 @@
             app:popUpTo="@id/homeFragment" />
         <argument
             android:name="gestante"
-            app:argType="com.devj.gestantescontrol.ui.GestanteParcelable"/>
+            app:argType="com.devj.gestantescontrol.framework.ui.GestanteParcelable"/>
 
 
 
@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/edicionFragment"
-        android:name="com.devj.gestantescontrol.ui.view.EdicionFragment"
+        android:name="com.devj.gestantescontrol.framework.ui.view.EdicionFragment"
         android:label="">
         <action
             android:id="@+id/action_edicionFragment_to_calendarioFUMFragment"
@@ -127,7 +127,7 @@
     <!--Calendario Para FUM-->
     <fragment
         android:id="@+id/calendarioFUMFragment"
-        android:name="com.devj.gestantescontrol.ui.view.CalendarioFUMFragment"
+        android:name="com.devj.gestantescontrol.framework.ui.view.CalendarioFUMFragment"
         android:label="">
         <action
             android:id="@+id/fum_to_edicion"
@@ -185,7 +185,7 @@
     <!--Calendario Para FUG -->
     <fragment
         android:id="@+id/calendarioUGFragment"
-        android:name="com.devj.gestantescontrol.ui.view.CalendarioUGFragment"
+        android:name="com.devj.gestantescontrol.framework.ui.view.CalendarioUGFragment"
         android:label="">
         <action
             android:id="@+id/ug_to_edicion"
@@ -239,6 +239,6 @@
     </fragment>
     <fragment
         android:id="@+id/acercaDeFragment"
-        android:name="com.devj.gestantescontrol.ui.view.AcercaDeFragment"
+        android:name="com.devj.gestantescontrol.framework.ui.view.AcercaDeFragment"
         android:label="Acerca de" />
 </navigation>

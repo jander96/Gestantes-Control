@@ -2,7 +2,7 @@ package com.devj.gestantescontrol.data
 
 import android.content.Context
 import com.devj.gestantescontrol.GestantesApplication
-import com.devj.gestantescontrol.data.database.entities.GestanteEntity
+import com.devj.gestantescontrol.framework.roomdatabase.entities.GestanteEntity
 import kotlinx.coroutines.flow.Flow
 
 
