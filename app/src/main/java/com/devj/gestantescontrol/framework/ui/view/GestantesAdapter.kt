@@ -1,7 +1,6 @@
 package com.devj.gestantescontrol.framework.ui.view
 
 import android.annotation.SuppressLint
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.devj.gestantescontrol.R
-import com.devj.gestantescontrol.core.createInternalFileFromImageUri
 import com.devj.gestantescontrol.core.getBitmapFromFile
-import com.devj.gestantescontrol.core.getResizeBitmap
-import com.devj.gestantescontrol.core.setImageFromBitmap
-import com.devj.gestantescontrol.domain.CalculadoraEg
+import com.devj.gestantescontrol.domain.CalculadoraEG
 import com.devj.gestantescontrol.databinding.GestanteItemBinding
 import com.devj.gestantescontrol.domain.Gestante
+import com.devj.gestantescontrol.framework.CalcDatesImpl
+import com.devj.gestantescontrol.usescases.CalcularEGXFUMUseCase
+import com.devj.gestantescontrol.usescases.CalcularEGXUGUseCase
 
 
 class GestantesAdapter(private val fn: (gestante: Gestante) -> Unit) :
@@ -43,7 +42,12 @@ class GestantesAdapter(private val fn: (gestante: Gestante) -> Unit) :
             with(binding) {
                 try {
                     if (gestante.foto != "") {
-                    iVGestante.setImageBitmap(getBitmapFromFile(binding.root.context,gestante.foto))
+                        iVGestante.setImageBitmap(
+                            getBitmapFromFile(
+                                binding.root.context,
+                                gestante.foto
+                            )
+                        )
                     } else {
                         iVGestante.setImageResource(R.drawable.ic_baseline_person_pin_24)
                     }
@@ -52,13 +56,20 @@ class GestantesAdapter(private val fn: (gestante: Gestante) -> Unit) :
                 }
                 tvNombre.text = "${gestante.nombre} ${gestante.apellidos}"
                 tvSemanas.text = if (gestante.fumConfiable) {
-                    CalculadoraEg(gestante.fum ?: "").calcularPorFUM()
+                    CalcularEGXFUMUseCase(
+                        CalculadoraEG(gestante.fum!!, calculadoraFechas = CalcDatesImpl())
+                    ).calcularEGXFUM()
+
                 } else {
-                    CalculadoraEg(
-                        gestante.fug ?: "",
-                        gestante.cantSemanasUG!!.toInt(),
-                        gestante.cantDiasUG!!.toInt()
-                    ).calcularPorUSG()
+                    CalcularEGXUGUseCase(
+                        CalculadoraEG(
+                            gestante.fug!!,
+                            gestante.cantSemanasUG!!.toInt(),
+                            gestante.cantDiasUG!!.toInt(),
+                            CalcDatesImpl()
+                        )
+                    ).calcularEGXUG()
+
                 }
             }
         }

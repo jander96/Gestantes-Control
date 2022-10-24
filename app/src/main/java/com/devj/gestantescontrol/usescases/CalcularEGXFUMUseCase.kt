@@ -1,10 +1,12 @@
 package com.devj.gestantescontrol.usescases
 
-import com.devj.gestantescontrol.domain.CalculadoraEg
 
-class CalcularEGXFUMUseCase {
+import com.devj.gestantescontrol.domain.CalculadoraEG
 
-    fun calcularEGXFUM(calculadora: CalculadoraEg):String{
-        return calculadora.calcularPorFUM()
+
+class CalcularEGXFUMUseCase(private val calculadoraEg: CalculadoraEG) {
+
+     fun calcularEGXFUM():String{
+       return calculadoraEg.calcularPorFUM()
     }
 }

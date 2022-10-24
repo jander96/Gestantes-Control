@@ -8,21 +8,25 @@ import androidx.lifecycle.*
 import androidx.navigation.NavController
 import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.core.getBitmapFromFile
-import com.devj.gestantescontrol.domain.CalculadoraEg
+import com.devj.gestantescontrol.domain.CalculadoraEG
 import com.devj.gestantescontrol.databinding.FragmentDetailBinding
 import com.devj.gestantescontrol.domain.*
+import com.devj.gestantescontrol.framework.CalcDatesImpl
 import com.devj.gestantescontrol.framework.ui.view.GestanteDetailFragmentArgs
 import com.devj.gestantescontrol.framework.ui.view.GestanteDetailFragmentDirections
+import com.devj.gestantescontrol.usescases.CalculadoraFPPUseCase
+import com.devj.gestantescontrol.usescases.CalcularEGXFUMUseCase
+import com.devj.gestantescontrol.usescases.CalcularEGXUGUseCase
 import com.devj.gestantescontrol.usescases.EliminarGestanteUseCase
 import java.text.DecimalFormat
 
 class DetailViewModel(
-   private val  repo: Repo
+    private val repo: Repo
 ) : ViewModel() {
     private val _gestante = MutableLiveData<Gestante>()
     val gestante: LiveData<Gestante> get() = _gestante
 
-    fun initGestanteValue(args: GestanteDetailFragmentArgs){
+    fun initGestanteValue(args: GestanteDetailFragmentArgs) {
         _gestante.value = args.gestante.toGestante()
     }
 
@@ -35,10 +39,18 @@ class DetailViewModel(
     ): String {
 
         return if (fumConfiable) {
-            CalculadoraEg(fum).calcularPorFUM() + " FUM confiable"
+            CalcularEGXFUMUseCase(
+                CalculadoraEG(fum, calculadoraFechas = CalcDatesImpl())
+            ).calcularEGXFUM() + " Sem" + " FUM confiable"
         } else {
-            CalculadoraEg(fug, cantSemUg.toInt(), cantDiasUg.toInt())
-                .calcularPorUSG() + " FUM no confiable"
+            CalcularEGXUGUseCase(
+                CalculadoraEG(
+                    fug,
+                    cantSemUg.toInt(),
+                    cantDiasUg.toInt(),
+                    CalcDatesImpl()
+                )
+            ).calcularEGXUG() + " Sem" + " FUM no confiable"
         }
     }
 
@@ -67,17 +79,17 @@ class DetailViewModel(
     @SuppressLint("SetTextI18n")
     fun bind(binding: FragmentDetailBinding, gestante: Gestante) {
         binding.apply {
-            try {if (gestante.foto != "") {
-               foto.setImageBitmap(getBitmapFromFile(binding.root.context,gestante.foto))
-            } else {
+            try {
+                if (gestante.foto != "") {
+                    foto.setImageBitmap(getBitmapFromFile(binding.root.context, gestante.foto))
+                } else {
+                    foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
+                }
+            } catch (e: Exception) {
                 foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
             }
-            }catch(e:Exception){
-                foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
-            }
-            tvNombreApellidos.text = if (gestante.nombre != null || gestante.apellidos != null) {
-                gestante.nombre + " " + gestante.apellidos
-            } else ""
+            tvNombreApellidos.text = gestante.nombre + " " + gestante.apellidos
+
             tvEdad.text = if (gestante.edad != null) {
                 gestante.edad + " A"
             } else ""
@@ -98,18 +110,24 @@ class DetailViewModel(
             else ""
             tvEg.text = if (gestante.fum != null || gestante.fug != null) {
                 if (gestante.fum != "0/0/0") {
-                    "FUM: " + gestante.fum + " = " + CalculadoraEg(gestante.fum!!).calcularPorFUM() + "\n"
+                    "FUM: " + gestante.fum + " = " + CalcularEGXFUMUseCase(
+                        CalculadoraEG(gestante.fum!!, calculadoraFechas = CalcDatesImpl())
+                    ).calcularEGXFUM() + "\n"
                 } else {
                     " "
                 } +
 
                         if (gestante.fug != "0/0/0") {
                             "FUG: " + gestante.fug +
-                                    " (${gestante.cantSemanasUG}.${gestante.cantDiasUG}s)" + " = " + CalculadoraEg(
-                                gestante.fug!!,
-                                gestante.cantSemanasUG!!.toInt(),
-                                gestante.cantDiasUG!!.toInt()
-                            ).calcularPorUSG()
+                                    " (${gestante.cantSemanasUG}.${gestante.cantDiasUG}s)" + " = " +
+                                    CalcularEGXUGUseCase(
+                                        CalculadoraEG(
+                                            gestante.fug!!,
+                                            gestante.cantSemanasUG!!.toInt(),
+                                            gestante.cantDiasUG!!.toInt(),
+                                            CalcDatesImpl()
+                                        )
+                                    ).calcularEGXUG()
                         } else ""
             } else ""
 
@@ -121,10 +139,10 @@ class DetailViewModel(
             } else ""
 
             tvFpp.text = if (gestante.fum != null || gestante.fug != null) {
-                "FPP: " + CalculadoraEg(
+                "FPP: " + CalculadoraFPPUseCase(CalculadoraEG(
                     if (gestante.fumConfiable) gestante.fum!! else gestante.fug!!,
-                    gestante.cantSemanasUG!!.toInt(), gestante.cantDiasUG!!.toInt()
-                ).calcularFPP(if (gestante.fumConfiable) gestante.fum!! else gestante.fug!!)
+                    gestante.cantSemanasUG!!.toInt(), gestante.cantDiasUG!!.toInt(),CalcDatesImpl()
+                )).calcularFPP(if (gestante.fumConfiable) gestante.fum!! else gestante.fug!!)
             } else ""
 
             tvNotas.text = gestante.notas ?: ""
