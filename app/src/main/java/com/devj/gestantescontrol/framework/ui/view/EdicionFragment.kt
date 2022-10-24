@@ -20,6 +20,7 @@ import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.core.hideKeyboard
 import com.devj.gestantescontrol.databinding.FragmentEdicionBinding
 import com.devj.gestantescontrol.domain.RepoImpl
+import com.devj.gestantescontrol.framework.roomdatabase.AppGestanteDatabase
 import com.devj.gestantescontrol.framework.roomdatabase.LocalDataBaseImpl
 import com.devj.gestantescontrol.framework.ui.viewmodel.EdicionViewModel
 import com.devj.gestantescontrol.framework.ui.viewmodel.EdicionViewModelFactory
@@ -31,8 +32,8 @@ class EdicionFragment : Fragment(R.layout.fragment_edicion) {
     private var _binding: FragmentEdicionBinding? = null
     val binding get() = _binding!!
     private val args: EdicionFragmentArgs by navArgs()
-    private val roomdatabase = (requireContext().applicationContext as GestantesApplication).database
-    private val repo = RepoImpl(LocalDataBaseImpl(roomdatabase))
+    private lateinit var roomdatabase: AppGestanteDatabase
+    private lateinit var repo : RepoImpl
     private val viewModel: EdicionViewModel by viewModels {
         EdicionViewModelFactory(repo)
     }
@@ -72,6 +73,8 @@ class EdicionFragment : Fragment(R.layout.fragment_edicion) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("EdicionCycle", "On ViewCreated")
         _binding = FragmentEdicionBinding.bind(view)
+        roomdatabase = (requireContext().applicationContext as GestantesApplication).database
+        repo = RepoImpl(LocalDataBaseImpl(roomdatabase))
         navController = findNavController()
 
         viewModel.rellenarCamposArgs(requireContext(),args,binding)

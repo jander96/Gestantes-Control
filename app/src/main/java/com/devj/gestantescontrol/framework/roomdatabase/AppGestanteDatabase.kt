@@ -9,7 +9,7 @@ import com.devj.gestantescontrol.framework.roomdatabase.converters.Converter
 import com.devj.gestantescontrol.framework.roomdatabase.dao.GestanteDao
 import com.devj.gestantescontrol.framework.roomdatabase.entities.GestanteEntity
 
-@Database(entities = [GestanteEntity::class], version = 1)
+@Database(entities = [GestanteEntity::class], version = 1, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class AppGestanteDatabase:RoomDatabase() {
     abstract fun getGestanteDao(): GestanteDao

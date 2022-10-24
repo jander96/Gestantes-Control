@@ -19,6 +19,7 @@ import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.databinding.FragmentHomeBinding
 import com.devj.gestantescontrol.domain.RepoImpl
 import com.devj.gestantescontrol.domain.toGestanteParcelable
+import com.devj.gestantescontrol.framework.roomdatabase.AppGestanteDatabase
 import com.devj.gestantescontrol.framework.roomdatabase.LocalDataBaseImpl
 import com.devj.gestantescontrol.framework.ui.viewmodel.HomeViewModel
 import com.devj.gestantescontrol.framework.ui.viewmodel.HomeViewModelFactory
@@ -31,8 +32,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private val roomdatabase = (requireContext().applicationContext as GestantesApplication).database
-    private val repo = RepoImpl(LocalDataBaseImpl(roomdatabase))
+    private lateinit var roomdatabase:AppGestanteDatabase
+    private lateinit var repo : RepoImpl
     private val viewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(repo)
     }
@@ -47,6 +48,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
+         roomdatabase = (requireContext().applicationContext as GestantesApplication).database
+         repo = RepoImpl(LocalDataBaseImpl(roomdatabase))
+
         startAnimation()
         navController = findNavController()
         recyclerView = binding.contenido.recyclerView

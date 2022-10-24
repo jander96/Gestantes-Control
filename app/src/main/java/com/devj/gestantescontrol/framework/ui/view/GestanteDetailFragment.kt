@@ -19,6 +19,7 @@ import com.devj.gestantescontrol.GestantesApplication
 import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.databinding.FragmentDetailBinding
 import com.devj.gestantescontrol.domain.RepoImpl
+import com.devj.gestantescontrol.framework.roomdatabase.AppGestanteDatabase
 import com.devj.gestantescontrol.framework.roomdatabase.LocalDataBaseImpl
 import com.devj.gestantescontrol.framework.ui.viewmodel.DetailViewModel
 import com.devj.gestantescontrol.framework.ui.viewmodel.DetailViewModelFactory
@@ -33,13 +34,10 @@ class GestanteDetailFragment : Fragment(R.layout.fragment_detail) {
     val binding get() = _binding!!
 
     private val args: GestanteDetailFragmentArgs by navArgs()
-    private val repositorio = RepoImpl(
-        LocalDataBaseImpl((requireContext().applicationContext as GestantesApplication).database
-        )
-    )
-
+    private lateinit var roomdatabase: AppGestanteDatabase
+    private lateinit var repo : RepoImpl
     private val viewModel: DetailViewModel by viewModels{
-        DetailViewModelFactory(repositorio)
+        DetailViewModelFactory(repo)
     }
     private lateinit var navController: NavController
 
@@ -52,6 +50,8 @@ class GestanteDetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDetailBinding.bind(view)
+        roomdatabase = (requireContext().applicationContext as GestantesApplication).database
+        repo = RepoImpl(LocalDataBaseImpl(roomdatabase))
         navController = findNavController()
         viewModel.initGestanteValue(args)
 
