@@ -10,4 +10,11 @@
         app:showAsAction="never"
         android:orderInCategory="1"
         />
+    <item
+        android:id="@+id/ajustesFragment"
+        android:title="Ajustes"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="1"
+        />
 </menu>

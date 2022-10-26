@@ -1,5 +1,6 @@
 package com.devj.gestantescontrol.domain
 
+import com.devj.gestantescontrol.data.MessageDataSource
 import com.devj.gestantescontrol.framework.roomdatabase.entities.GestanteEntity
 import com.devj.gestantescontrol.data.model.GestantesModel
 import com.devj.gestantescontrol.framework.ui.GestanteParcelable
@@ -103,3 +104,6 @@ fun Gestante.toGestanteParcelable() = GestanteParcelable(
     notas,
     foto
 )
+
+
+

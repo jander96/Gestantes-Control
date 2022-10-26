@@ -49,10 +49,10 @@ class GestantesAdapter(private val fn: (gestante: Gestante) -> Unit) :
                             )
                         )
                     } else {
-                        iVGestante.setImageResource(R.drawable.ic_baseline_person_pin_24)
+                        iVGestante.setImageResource(R.drawable.iconpregnantdefault)
                     }
                 } catch (e: Exception) {
-                    iVGestante.setImageResource(R.drawable.ic_baseline_person_pin_24)
+                    iVGestante.setImageResource(R.drawable.iconpregnantdefault)
                 }
                 tvNombre.text = "${gestante.nombre} ${gestante.apellidos}"
                 tvSemanas.text = if (gestante.fumConfiable) {

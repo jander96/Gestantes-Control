@@ -241,4 +241,8 @@
         android:id="@+id/acercaDeFragment"
         android:name="com.devj.gestantescontrol.framework.ui.view.AcercaDeFragment"
         android:label="Acerca de" />
+    <fragment
+        android:id="@+id/ajustesFragment"
+        android:name="com.devj.gestantescontrol.framework.ui.view.AjustesFragment"
+        android:label="AjustesFragment" />
 </navigation>

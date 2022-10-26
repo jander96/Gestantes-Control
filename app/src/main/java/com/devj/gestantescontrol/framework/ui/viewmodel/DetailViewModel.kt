@@ -83,10 +83,10 @@ class DetailViewModel(
                 if (gestante.foto != "") {
                     foto.setImageBitmap(getBitmapFromFile(binding.root.context, gestante.foto))
                 } else {
-                    foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
+                    foto.setImageResource(R.drawable.iconpregnantdefault)
                 }
             } catch (e: Exception) {
-                foto.setImageResource(R.drawable.ic_baseline_person_pin_24)
+                foto.setImageResource(R.drawable.iconpregnantdefault)
             }
             tvNombreApellidos.text = gestante.nombre + " " + gestante.apellidos
 
