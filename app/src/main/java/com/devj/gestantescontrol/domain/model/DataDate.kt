@@ -9,7 +9,7 @@ data class DataDate(
     val secondFUG: String,
     val secondUSWeeks: Int,
     val secondUSDays: Int,
-    val ThirdFUG: String,
-    val ThirdUSWeeks: Int,
+    val thirdFUG: String,
+    val thirdUSWeeks: Int,
     val thirdUSDays: Int,
 )

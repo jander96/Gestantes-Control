@@ -4,6 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.devj.gestantescontrol.domain.model.DataDate
+import com.devj.gestantescontrol.domain.model.Measures
+import com.devj.gestantescontrol.domain.model.Pregnant
+import com.devj.gestantescontrol.domain.model.RiskFactor
 
 
 @Entity(tableName = "pregnant_table")
@@ -24,13 +28,40 @@ data class PregnantEntity(
     val riskFactors: List<RiskFactorEmbedded>,
     val notes: String,
     val photo: String
-)
+){
+    companion object{
+        fun fromDomain(pregnant: Pregnant): PregnantEntity{
+            return PregnantEntity(
+                id = pregnant.id,
+                name = pregnant.name,
+                lastName = pregnant.lastName,
+                age = pregnant.age,
+                phoneNumber = pregnant.phoneNumber,
+                measures = MeasuresEmbedded.fromDomain(pregnant.measures),
+                dataDate = DataDateEmbedded.fromDomain(pregnant.dataDate),
+                riskFactors = pregnant.riskFactors.map { RiskFactorEmbedded.fromDomain(it) },
+                notes = pregnant.notes,
+                photo = pregnant.photo
+            )
+        }
+    }
+}
 
 data class MeasuresEmbedded(
     val weight: Double,
     val size: Double
-)
-data class RiskFactorEmbedded(val name: String)
+){
+    companion object{
+        fun fromDomain(measures: Measures): MeasuresEmbedded{
+            return MeasuresEmbedded(measures.weight, measures.size)
+        }
+    }
+}
+data class RiskFactorEmbedded(val name: String){
+    companion object{
+        fun fromDomain(riskFactor: RiskFactor) = RiskFactorEmbedded(riskFactor.name)
+    }
+}
 
 data class DataDateEmbedded(
     @ColumnInfo(name = "fum")
@@ -49,10 +80,28 @@ data class DataDateEmbedded(
     val secondUSWeeks: Int,
     @ColumnInfo(name = "second_us_days")
     val secondUSDays: Int,
-    @ColumnInfo(name = "Third_fug")
-    val ThirdFUG: String,
-    @ColumnInfo(name = "Third_us_weeks")
-    val ThirdUSWeeks: Int,
+    @ColumnInfo(name = "third_fug")
+    val thirdFUG: String,
+    @ColumnInfo(name = "third_us_weeks")
+    val thirdUSWeeks: Int,
     @ColumnInfo(name = "third_us_days")
     val thirdUSDays: Int,
-)
+){
+    companion object{
+        fun fromDomain(dataDate: DataDate): DataDateEmbedded{
+            return DataDateEmbedded(
+                fUM = dataDate.fUM,
+                isFUMReliable = dataDate.isFUMReliable,
+                firstFUG = dataDate.firstFUG,
+                firstUSWeeks = dataDate.firstUSWeeks,
+                firstUSDays = dataDate.firstUSDays,
+                secondFUG = dataDate.secondFUG,
+                secondUSWeeks = dataDate.secondUSWeeks,
+                secondUSDays = dataDate.secondUSDays,
+                thirdFUG = dataDate.thirdFUG,
+                thirdUSWeeks = dataDate.thirdUSWeeks,
+                thirdUSDays = dataDate.thirdUSDays
+            )
+        }
+    }
+}

@@ -5,7 +5,7 @@ data class Pregnant(
     val id: Int,
     val name: String,
     val lastName: String,
-    val age: String,
+    val age: Int,
     val phoneNumber: String,
     val measures: Measures,
     val dataDate: DataDate,
