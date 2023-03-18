@@ -3,7 +3,7 @@ package com.devj.gestantescontrol.data.cache.converters
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.room.TypeConverter
-import com.devj.gestantescontrol.domain.model.RiskFactor
+import com.devj.gestantescontrol.data.cache.model.RiskFactorEmbedded
 import java.io.ByteArrayOutputStream
 
 class Converter {
@@ -18,14 +18,14 @@ class Converter {
         return BitmapFactory.decodeByteArray(byteArray,0,byteArray.size)
     }
     @TypeConverter
-    fun listToString(listOfRiskFactor: List<RiskFactor>): String{
+    fun listToString(listOfRiskFactor: List<RiskFactorEmbedded>): String{
        return listOfRiskFactor.joinToString(",") { it.name }
     }
     @TypeConverter
-    fun strtingToRiskFactor(string: String):List<RiskFactor>{
-        val result = mutableListOf<RiskFactor>()
+    fun strtingToRiskFactor(string: String):List<RiskFactorEmbedded>{
+        val result = mutableListOf<RiskFactorEmbedded>()
         string.split(",").forEach {
-            result.add(RiskFactor(it))
+            result.add(RiskFactorEmbedded(it))
         }
         return result
     }

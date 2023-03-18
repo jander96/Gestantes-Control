@@ -5,7 +5,6 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-import com.devj.gestantescontrol.domain.model.RiskFactor
 
 @Entity(tableName = "pregnant_table")
 data class PregnantEntity(
@@ -14,7 +13,7 @@ data class PregnantEntity(
     val name: String,
     @ColumnInfo(name = "last_name")
     val lastName: String,
-    val age: String,
+    val age: Int,
     @ColumnInfo(name = "phone_number")
     val phoneNumber: String,
     @Embedded
@@ -22,15 +21,16 @@ data class PregnantEntity(
     @Embedded
     val dataDate: DataDateEmbedded,
     @ColumnInfo(name = "risk_factors")
-    val riskFactors: List<RiskFactor>,
+    val riskFactors: List<RiskFactorEmbedded>,
     val notes: String,
     val photo: String
 )
 
 data class MeasuresEmbedded(
     val weight: Double,
-    val size: String
+    val size: Double
 )
+data class RiskFactorEmbedded(val name: String)
 
 data class DataDateEmbedded(
     @ColumnInfo(name = "fum")
