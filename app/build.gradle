@@ -5,6 +5,8 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     // Para poder usar la anotacion @Parcelize
     id 'kotlin-parcelize'
+    id 'com.google.dagger.hilt.android'
+
 }
 
 android {
@@ -83,9 +85,10 @@ dependencies {
     //Preference
     implementation'androidx.preference:preference-ktx:1.2.0'
 
-
-
-
-
-
+    implementation "com.google.dagger:hilt-android:2.44"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+    
+}
+kapt {
+    correctErrorTypes true
 }
