@@ -30,7 +30,7 @@ class PregnantAdapter(private val fn: (pregnant: Pregnant) -> Unit) :
     class PregnantViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = GestanteItemBinding.bind(view)
         fun bind(pregnant: Pregnant) {
-
+            binding.tvNombre.text = pregnant.name
         }
     }
 }
