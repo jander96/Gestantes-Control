@@ -1,6 +1,7 @@
 package com.devj.gestantescontrol.presenter.ui.view.homescreen
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devj.gestantescontrol.domain.actions.Action
@@ -26,12 +27,15 @@ class HomeViewModel @Inject constructor(
     val intentFlow = MutableSharedFlow<HomeIntent>()
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-
-            intentFlow.map { it.mapToAction() }
-                .map { processor(it) }
-                .collect { reduceState(_mutableViewState.value, it) }
+        Log.d("ViewModel", "Se inicio el viewModel")
+        viewModelScope.launch {
+            intentFlow.map { intent->
+                intent.mapToAction() }
+                .map {action-> processor(action) }
+                .collect { effect ->
+                    _mutableViewState.value = reduceState(_mutableViewState.value, effect) }
         }
+
     }
 
     private suspend fun processor(action: Action): Effect {
