@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/image_embarazada"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/cara_mujer"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:round="120dp"/>
+
+        <TextView
+            android:id="@+id/text_nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nombre de la embarazada"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/image_embarazada"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image_riesgo" />
+
+        <TextView
+            android:id="@+id/text_edad_gestacional"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Edad gestacional: 20 semanas"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/image_embarazada"
+            app:layout_constraintTop_toBottomOf="@id/text_nombre"
+            app:layout_constraintEnd_toStartOf="@id/image_riesgo" />
+
+        <ImageView
+            android:id="@+id/image_riesgo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_add"
+            android:contentDescription="Icono de clasificación de riesgo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

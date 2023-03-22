@@ -6,6 +6,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.databinding.ActivityMainBinding
@@ -21,8 +22,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
-            setSupportActionBar(toolbar)
+            toolbar.inflateMenu(R.menu.menu_toolbar)
         }
+
         screenSplash.setKeepOnScreenCondition { false }
         setupHost()
     }
@@ -32,10 +34,10 @@ class MainActivity : AppCompatActivity() {
             .also { navController = it.navController }
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.acercaDeFragment),
+            navController.graph,
             binding.drawerLayout
         )
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
+       binding.toolbar.setupWithNavController(navController,appBarConfiguration)
         binding.navDrawer.setupWithNavController(navController)
     }
 }

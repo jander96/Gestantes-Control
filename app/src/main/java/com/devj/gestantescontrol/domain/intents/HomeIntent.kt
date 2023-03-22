@@ -1,6 +1,6 @@
 package com.devj.gestantescontrol.domain.intents
 
-import com.devj.gestantescontrol.domain.actions.Action
+import com.devj.gestantescontrol.domain.actions.HomeAction
 
 
 sealed class HomeIntent{
@@ -8,8 +8,8 @@ sealed class HomeIntent{
 
 }
 
-fun HomeIntent.mapToAction(): Action{
+fun HomeIntent.mapToAction(): HomeAction{
     return when(this){
-        HomeIntent.EnterAtHome -> Action.LoadListPregnant
+        HomeIntent.EnterAtHome -> HomeAction.LoadListPregnant
     }
 }

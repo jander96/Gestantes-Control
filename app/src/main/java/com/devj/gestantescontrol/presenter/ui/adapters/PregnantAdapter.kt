@@ -8,38 +8,37 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.databinding.GestanteItemBinding
-import com.devj.gestantescontrol.domain.model.Pregnant
+import com.devj.gestantescontrol.presenter.model.PregnantUI
 
 
-class PregnantAdapter(private val fn: (pregnant: Pregnant) -> Unit) :
-    ListAdapter<Pregnant, PregnantAdapter.PregnantViewHolder>(DiffUtilCallback) {
+class PregnantAdapter(private val onPressed: (pregnant: PregnantUI) -> Unit) :
+    ListAdapter<PregnantUI, PregnantAdapter.PregnantViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PregnantViewHolder {
         return PregnantViewHolder(
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.gestante_item, parent, false)
         )
-
     }
 
     override fun onBindViewHolder(holder: PregnantViewHolder, position: Int) {
         holder.bind(getItem(position))
-        holder.itemView.setOnClickListener { fn(getItem(position)) }
+        holder.itemView.setOnClickListener { onPressed(getItem(position)) }
     }
 
     class PregnantViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = GestanteItemBinding.bind(view)
-        fun bind(pregnant: Pregnant) {
-            binding.tvNombre.text = pregnant.name
+        fun bind(pregnant: PregnantUI) {
+            binding.tvNombre.text = pregnant.fullName
         }
     }
 }
-private object DiffUtilCallback : DiffUtil.ItemCallback<Pregnant>() {
-    override fun areItemsTheSame(oldItem: Pregnant, newItem: Pregnant): Boolean {
+private object DiffUtilCallback : DiffUtil.ItemCallback<PregnantUI>() {
+    override fun areItemsTheSame(oldItem: PregnantUI, newItem: PregnantUI): Boolean {
         return (oldItem.id == newItem.id)
     }
 
-    override fun areContentsTheSame(oldItem: Pregnant, newItem: Pregnant): Boolean {
+    override fun areContentsTheSame(oldItem: PregnantUI, newItem: PregnantUI): Boolean {
         return (oldItem == newItem)
     }
 

@@ -23,4 +23,8 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="objetivo">Esta es una app creada para facilitarle el trabajo al médico de familia, en el control y seguimiento de la gestante.</string>
+    <string name="alert_dialog_delete_pregnant_message">Estás seguro de eliminar la gestante</string>
+    <string name="alert_dialog_delete_pregnant_positive_button">Si</string>
+    <string name="alert_dialog_delete_pregnant_negative_button">No</string>
+    <string name="alert_dialog_delete_pregnant_title">Eliminar</string>
 </resources>

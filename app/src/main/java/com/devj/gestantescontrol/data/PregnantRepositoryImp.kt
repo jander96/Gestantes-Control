@@ -20,12 +20,21 @@ class PregnantRepositoryImp @Inject constructor(
         }
     }
 
+    override suspend fun getPregnantById(pregnantId: Int): Pregnant {
+        val pregnantEntity = cache.getPregnantById(pregnantId)
+        return cacheMapper.mapToDomain(pregnantEntity)
+    }
+
     override suspend fun insertPregnant(pregnant: Pregnant) {
         cache.insertPregnant(PregnantEntity.fromDomain(pregnant))
     }
 
     override suspend fun deletePregnant(pregnant: Pregnant) {
         cache.deletePregnant(PregnantEntity.fromDomain(pregnant))
+    }
+
+    override suspend fun deletePregnantById(pregnantId: Int) {
+        cache.deletePregnantById(pregnantId)
     }
 
 }

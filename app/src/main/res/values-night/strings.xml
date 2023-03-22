@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="alert_dialog_delete_pregnant_message">Estás seguro de eliminar la gestante</string>
+    <string name="alert_dialog_delete_pregnant_positive_button">Si</string>
+    <string name="alert_dialog_delete_pregnant_negative_button">No</string>
+    <string name="alert_dialog_delete_pregnant_title">Eliminar</string>
+</resources>

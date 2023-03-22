@@ -10,10 +10,16 @@ interface PregnantDao {
     @Query("SELECT * FROM pregnant_table")
     fun getAllPregnant(): Flow<List<PregnantEntity>>
 
+    @Query("SELECT * FROM pregnant_table WHERE id = :pregnantId")
+    suspend fun getPregnantById(pregnantId: Int): PregnantEntity
+
     @Insert(onConflict =OnConflictStrategy.REPLACE )
-    fun insertPregnant(pregnant: PregnantEntity)
+    suspend fun insertPregnant(pregnant: PregnantEntity)
 
     @Delete
-    fun deletePregnant(pregnant: PregnantEntity)
+    suspend fun deletePregnant(pregnant: PregnantEntity)
+
+    @Query("DELETE From pregnant_table Where id == :pregnantId")
+    suspend fun deletePregnantById(pregnantId: Int)
 
 }

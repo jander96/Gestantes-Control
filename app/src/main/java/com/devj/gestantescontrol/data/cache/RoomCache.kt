@@ -11,12 +11,19 @@ class RoomCache @Inject constructor(private val pregnantDao: PregnantDao): Cache
     override fun getAllPregnant(): Flow<List<PregnantEntity>> {
         return pregnantDao.getAllPregnant()
     }
+    override suspend fun getPregnantById(pregnantId: Int): PregnantEntity {
+        return pregnantDao.getPregnantById(pregnantId)
+    }
 
-    override fun insertPregnant(pregnant: PregnantEntity) {
+    override suspend fun insertPregnant(pregnant: PregnantEntity) {
         pregnantDao.insertPregnant(pregnant)
     }
 
-    override fun deletePregnant(pregnant: PregnantEntity) {
+    override suspend fun deletePregnant(pregnant: PregnantEntity) {
         pregnantDao.deletePregnant(pregnant)
+    }
+
+    override suspend fun deletePregnantById(pregnantId: Int) {
+        pregnantDao.deletePregnantById(pregnantId)
     }
 }

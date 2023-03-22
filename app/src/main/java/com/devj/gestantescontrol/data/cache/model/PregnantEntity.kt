@@ -17,29 +17,31 @@ data class PregnantEntity(
     val name: String,
     @ColumnInfo(name = "last_name")
     val lastName: String,
-    val age: Int,
+    val age: Int?,
     @ColumnInfo(name = "phone_number")
-    val phoneNumber: String,
+    val phoneNumber: String?,
     @Embedded
-    val measures: MeasuresEmbedded,
+    val measures: MeasuresEmbedded?,
     @Embedded
     val dataDate: DataDateEmbedded,
     @ColumnInfo(name = "risk_factors")
-    val riskFactors: List<RiskFactorEmbedded>,
-    val notes: String,
-    val photo: String
-){
-    companion object{
-        fun fromDomain(pregnant: Pregnant): PregnantEntity{
+    val riskFactors: List<RiskFactorEmbedded>?,
+    val notes: String?,
+    val photo: String?
+) {
+    companion object {
+        fun fromDomain(pregnant: Pregnant): PregnantEntity {
             return PregnantEntity(
                 id = pregnant.id,
                 name = pregnant.name,
                 lastName = pregnant.lastName,
                 age = pregnant.age,
                 phoneNumber = pregnant.phoneNumber,
-                measures = MeasuresEmbedded.fromDomain(pregnant.measures),
+                measures = if (pregnant.measures != null)
+                    MeasuresEmbedded.fromDomain(pregnant.measures)
+                else null,
                 dataDate = DataDateEmbedded.fromDomain(pregnant.dataDate),
-                riskFactors = pregnant.riskFactors.map { RiskFactorEmbedded.fromDomain(it) },
+                riskFactors = pregnant.riskFactors?.map { RiskFactorEmbedded.fromDomain(it) },
                 notes = pregnant.notes,
                 photo = pregnant.photo
             )
@@ -50,15 +52,16 @@ data class PregnantEntity(
 data class MeasuresEmbedded(
     val weight: Double,
     val size: Double
-){
-    companion object{
-        fun fromDomain(measures: Measures): MeasuresEmbedded{
+) {
+    companion object {
+        fun fromDomain(measures: Measures): MeasuresEmbedded {
             return MeasuresEmbedded(measures.weight, measures.size)
         }
     }
 }
-data class RiskFactorEmbedded(val name: String){
-    companion object{
+
+data class RiskFactorEmbedded(val name: String) {
+    companion object {
         fun fromDomain(riskFactor: RiskFactor) = RiskFactorEmbedded(riskFactor.name)
     }
 }
@@ -69,26 +72,26 @@ data class DataDateEmbedded(
     @ColumnInfo(name = "is_fum_reliable")
     val isFUMReliable: Boolean,
     @ColumnInfo(name = "first_fug")
-    val firstFUG: String,
+    val firstFUG: String?,
     @ColumnInfo(name = "first_us_weeks")
-    val firstUSWeeks: Int,
+    val firstUSWeeks: Int?,
     @ColumnInfo(name = "first_us_days")
-    val firstUSDays: Int,
+    val firstUSDays: Int?,
     @ColumnInfo(name = "second_fug")
-    val secondFUG: String,
+    val secondFUG: String?,
     @ColumnInfo(name = "second_us_weeks")
-    val secondUSWeeks: Int,
+    val secondUSWeeks: Int?,
     @ColumnInfo(name = "second_us_days")
-    val secondUSDays: Int,
+    val secondUSDays: Int?,
     @ColumnInfo(name = "third_fug")
-    val thirdFUG: String,
+    val thirdFUG: String?,
     @ColumnInfo(name = "third_us_weeks")
-    val thirdUSWeeks: Int,
+    val thirdUSWeeks: Int?,
     @ColumnInfo(name = "third_us_days")
-    val thirdUSDays: Int,
-){
-    companion object{
-        fun fromDomain(dataDate: DataDate): DataDateEmbedded{
+    val thirdUSDays: Int?,
+) {
+    companion object {
+        fun fromDomain(dataDate: DataDate): DataDateEmbedded {
             return DataDateEmbedded(
                 fUM = dataDate.fUM,
                 isFUMReliable = dataDate.isFUMReliable,

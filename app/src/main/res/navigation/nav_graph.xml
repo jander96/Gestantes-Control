@@ -8,5 +8,34 @@
     <fragment
         android:id="@+id/fragmentHome"
         android:name="com.devj.gestantescontrol.presenter.ui.view.homescreen.FragmentHome"
-        android:label="FragmentHome" />
+        android:label="FragmentHome" >
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentPregnantDetail"
+            app:destination="@id/fragmentPregnantDetail"
+            app:popUpTo="@id/fragmentHome" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentEdition"
+            app:destination="@id/fragmentEdition" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentPregnantDetail"
+        android:name="com.devj.gestantescontrol.presenter.ui.view.detailscreen.FragmentPregnantDetail"
+        android:label="FragmentPregnantDetail" >
+        <argument
+            android:name="pregnant"
+            app:argType="com.devj.gestantescontrol.presenter.model.PregnantUI" />
+        <action
+            android:id="@+id/action_fragmentPregnantDetail_to_fragmentEdition"
+            app:destination="@id/fragmentEdition"
+            app:popUpTo="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEdition"
+        android:name="com.devj.gestantescontrol.presenter.ui.view.editionscreen.FragmentEdition"
+        android:label="FragmentEdition" >
+        <argument
+            android:name="pregnantId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

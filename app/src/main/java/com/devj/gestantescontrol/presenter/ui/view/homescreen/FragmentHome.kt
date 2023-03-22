@@ -10,21 +10,18 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devj.gestantescontrol.R
-import com.devj.gestantescontrol.data.cache.dao.PregnantDao
-import com.devj.gestantescontrol.data.cache.model.DataDateEmbedded
-import com.devj.gestantescontrol.data.cache.model.MeasuresEmbedded
-import com.devj.gestantescontrol.data.cache.model.PregnantEntity
-import com.devj.gestantescontrol.data.cache.model.RiskFactorEmbedded
 import com.devj.gestantescontrol.databinding.FragmentHomeBinding
 import com.devj.gestantescontrol.domain.intents.HomeIntent
 import com.devj.gestantescontrol.domain.model.*
+import com.devj.gestantescontrol.presenter.model.PregnantUI
 import com.devj.gestantescontrol.presenter.ui.adapters.PregnantAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FragmentHome : Fragment(R.layout.fragment_home) {
@@ -32,29 +29,33 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var homeAdapter : PregnantAdapter
+    private lateinit var navController: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
+        navController = findNavController()
 
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed{
             viewModel.intentFlow.emit(HomeIntent.EnterAtHome)
-            Log.d("MVIArc", "Se lanzó el intent")
         }
         setupRecyclerView()
 
+        observeState()
+
+        binding.fab.setOnClickListener {
+            navigateToEdition()
+        }
+    }
+
+
+    private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewState.collect { state ->
                     render(state)
                 }
             }
-
-        }
-
-
-        binding.fab.setOnClickListener {
-
         }
     }
 
@@ -62,22 +63,24 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
         state.pregnantList.collect{
             homeAdapter.submitList(it)
         }
-
-        binding.contenidoLayout.textvTest.text = state.error.toString()
+        if (state.isDataBaseEmpty) binding.contenidoLayout.textvTest.text = "La base de datos esta vacia"
     }
 
     private fun setupRecyclerView() {
-        homeAdapter = PregnantAdapter { navigateToDetail() }
+        homeAdapter = PregnantAdapter { navigateToDetail(it) }
         binding.contenidoLayout.recyclerView.apply {
            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
             adapter = homeAdapter
         }
-
     }
 
-    private fun navigateToDetail() {
-        TODO("Not yet implemented")
+    private fun navigateToDetail(pregnant: PregnantUI) {
+        navController.navigate(FragmentHomeDirections.actionFragmentHomeToFragmentPregnantDetail(pregnant))
     }
+    private fun navigateToEdition() {
+        navController.navigate(FragmentHomeDirections.actionFragmentHomeToFragmentEdition())
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -6,7 +6,11 @@ import kotlinx.coroutines.flow.Flow
 interface Cache {
     fun getAllPregnant(): Flow<List<PregnantEntity>>
 
-    fun insertPregnant(pregnant: PregnantEntity)
+    suspend fun getPregnantById(pregnantId: Int): PregnantEntity
 
-    fun deletePregnant(pregnant: PregnantEntity)
+    suspend fun insertPregnant(pregnant: PregnantEntity)
+
+    suspend fun deletePregnant(pregnant: PregnantEntity)
+
+    suspend fun deletePregnantById(pregnantId: Int)
 }

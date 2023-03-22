@@ -16,9 +16,9 @@ class PregnantEntityMapper @Inject constructor(
             lastName = cacheEntity.lastName,
             age = cacheEntity.age,
             phoneNumber = cacheEntity.phoneNumber,
-            measures = measuresMapper.mapToDomain(cacheEntity.measures),
+            measures = if (cacheEntity.measures != null)measuresMapper.mapToDomain(cacheEntity.measures) else null,
             dataDate = dataDateEmbeddedMapper.mapToDomain(cacheEntity.dataDate),
-            riskFactors = cacheEntity.riskFactors.map { riskFactorEmbeddedMapper.mapToDomain(it) },
+            riskFactors = cacheEntity.riskFactors?.map { riskFactorEmbeddedMapper.mapToDomain(it) },
             notes = cacheEntity.notes,
             photo = cacheEntity.photo
         )

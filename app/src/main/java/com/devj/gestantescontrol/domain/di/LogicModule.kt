@@ -12,6 +12,5 @@ import javax.inject.Singleton
 @InstallIn(ViewModelComponent::class)
 abstract class LogicModule {
     @Binds
-    @Singleton
     abstract fun bindDateCalculator(impl: AndroidDateCalculator): DateCalculator
 }
