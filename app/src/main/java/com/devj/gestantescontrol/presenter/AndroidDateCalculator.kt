@@ -12,7 +12,7 @@ class AndroidDateCalculator @Inject constructor() : DateCalculator {
     private val regexForCorrectDateFormat = Regex(DATE_REGEX_FORMAT)
     companion object {
         private const val CANT_MILLIS_X_DIA = 86400000
-        private const val DATE_REGEX_FORMAT = "^(0[1-9]|[12]\\d|3[01])/(0[1-9]|1[0-2])/(\\d{4})\$"
+        private const val DATE_REGEX_FORMAT = "^([1-9]|0[1-9]|[12]\\d|3[01])/([1-9]|0[1-9]|1[0-2])/(\\d{4})\$"
         private const val EXCEPTION_MESSAGE = "Invalid string format for date in dd/MM/yyyy"
     }
 

@@ -38,4 +38,6 @@ fun setImageFromBitmap(bitmap: Bitmap, imageView: ImageView) {
 fun getResizeBitmap(bitmap: Bitmap, with: Int, heigth: Int, filter: Boolean): Bitmap {
     return Bitmap.createScaledBitmap(bitmap, with, heigth, filter)
 }
+
+fun getDate(year: Int, month: Int, day: Int): String = "$day/${month+1}/$year"
 //***********************************************************************************

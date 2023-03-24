@@ -1,5 +1,6 @@
 package com.devj.gestantescontrol.data.cache
 
+import android.util.Log
 import com.devj.gestantescontrol.data.Cache
 import com.devj.gestantescontrol.data.cache.dao.PregnantDao
 import com.devj.gestantescontrol.data.cache.model.PregnantEntity
@@ -25,5 +26,6 @@ class RoomCache @Inject constructor(private val pregnantDao: PregnantDao): Cache
 
     override suspend fun deletePregnantById(pregnantId: Int) {
         pregnantDao.deletePregnantById(pregnantId)
+        Log.d("FlowIntent","Se ejecuto la query")
     }
 }

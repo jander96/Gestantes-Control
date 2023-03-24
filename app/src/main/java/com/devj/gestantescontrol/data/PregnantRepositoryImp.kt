@@ -1,5 +1,6 @@
 package com.devj.gestantescontrol.data
 
+import android.util.Log
 import com.devj.gestantescontrol.data.cache.model.PregnantEntity
 import com.devj.gestantescontrol.data.cache.model.mapper.PregnantEntityMapper
 import com.devj.gestantescontrol.domain.PregnantRepository
@@ -22,6 +23,7 @@ class PregnantRepositoryImp @Inject constructor(
 
     override suspend fun getPregnantById(pregnantId: Int): Pregnant {
         val pregnantEntity = cache.getPregnantById(pregnantId)
+        Log.d("EditIntent","Se ")
         return cacheMapper.mapToDomain(pregnantEntity)
     }
 

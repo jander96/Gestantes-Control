@@ -2,6 +2,7 @@ package com.devj.gestantescontrol.presenter.ui.view.editionscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.devj.gestantescontrol.domain.ItemOfRequest
 import com.devj.gestantescontrol.domain.actions.EditionAction
 import com.devj.gestantescontrol.domain.intents.EditionIntent
 import com.devj.gestantescontrol.domain.intents.mapToAction
@@ -39,7 +40,12 @@ class EditionViewModel @Inject constructor(
         return when (action) {
             is EditionAction.GetPregnantData -> getPregnantById(action.pregnantId)
             is EditionAction.InsertPregnant -> insertPregnant(action.pregnant)
+            is EditionAction.UpdateFormulary -> updatePregnantForm(action.data)
         }
+    }
+
+    private fun updatePregnantForm(data: Map<ItemOfRequest, Any>): EditionEffect {
+            return EditionEffect.FormUpdated(data)
     }
 
     private suspend fun reduce(
@@ -63,6 +69,9 @@ class EditionViewModel @Inject constructor(
                 pregnant = null,
                 error = null,
                 isThereNewPregnant = true
+            )
+            is EditionEffect.FormUpdated -> oldViewState.copy(
+                formulary = result.formulary
             )
         }
     }

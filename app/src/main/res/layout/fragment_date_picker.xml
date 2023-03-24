@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- custom_date_picker_dialog.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_gravity="center|top"
+    android:layout_marginBottom="10dp">
+
+    <DatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="true"
+        android:datePickerMode="calendar" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_eg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:errorEnabled="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/et_weeks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Semanas"
+                android:inputType="number"/>
+
+            <EditText
+                android:id="@+id/et_days"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dias"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:background="@null"
+            android:theme="@null"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="cancelar" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_aceptar"
+            android:layout_width="0dp"
+            android:background="@null"
+            android:theme="@null"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="aceptar" />
+
+    </LinearLayout>
+
+</LinearLayout>

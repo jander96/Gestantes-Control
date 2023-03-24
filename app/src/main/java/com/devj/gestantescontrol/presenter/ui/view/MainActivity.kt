@@ -2,30 +2,32 @@ package com.devj.gestantescontrol.presenter.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val screenSplash = installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).apply {
             setContentView(root)
-            toolbar.inflateMenu(R.menu.menu_toolbar)
+            setSupportActionBar(toolbar)
         }
-
         screenSplash.setKeepOnScreenCondition { false }
+        Log.d("FlowIntent","Se esta filtrando FlowIntent")
+
         setupHost()
     }
 
@@ -37,7 +39,8 @@ class MainActivity : AppCompatActivity() {
             navController.graph,
             binding.drawerLayout
         )
-       binding.toolbar.setupWithNavController(navController,appBarConfiguration)
+        binding.toolbar.setupWithNavController(navController,appBarConfiguration)
         binding.navDrawer.setupWithNavController(navController)
     }
+
 }

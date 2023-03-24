@@ -1,5 +1,6 @@
 package com.devj.gestantescontrol.domain.intents
 
+import android.util.Log
 import com.devj.gestantescontrol.domain.actions.DetailAction
 
 sealed class DetailIntent{
@@ -9,5 +10,6 @@ sealed class DetailIntent{
 fun DetailIntent.mapToAction(): DetailAction{
    return when (this){
         is DetailIntent.DeletePregnant -> DetailAction.DeletePregnantById(pregnantId)
+
     }
 }

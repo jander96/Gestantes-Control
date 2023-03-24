@@ -3,10 +3,12 @@ package com.devj.gestantescontrol.presenter.ui.view.detailscreen
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class FragmentPregnantDetail : Fragment(R.layout.fragment_detail), MenuProvider {
+class FragmentPregnantDetail : Fragment(R.layout.fragment_detail) {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private val args: FragmentPregnantDetailArgs by navArgs()
@@ -35,6 +37,26 @@ class FragmentPregnantDetail : Fragment(R.layout.fragment_detail), MenuProvider 
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDetailBinding.bind(view)
         navController = findNavController()
+        val menuHost = (requireActivity() as MenuHost)
+        menuHost.addMenuProvider(object : MenuProvider{
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_toolbar_detail, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.menu_item_eliminar -> {
+                        showDeleteAlertDialog()
+                        true
+                    }
+                    R.id.menu_item_editar -> {
+                        navigateToEditionView()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        },viewLifecycleOwner)
 
         observeViewState()
 
@@ -66,7 +88,7 @@ class FragmentPregnantDetail : Fragment(R.layout.fragment_detail), MenuProvider 
     }
 
     private fun showPregnantDeletedView() {
-        TODO("Not yet implemented")
+        binding.tvEdad.text = "Se borro esta gestante"
     }
 
     private fun showPregnantDetailsView() {
@@ -89,34 +111,16 @@ class FragmentPregnantDetail : Fragment(R.layout.fragment_detail), MenuProvider 
             .setNegativeButton(R.string.alert_dialog_delete_pregnant_negative_button) { _, _ -> }
             .setPositiveButton(R.string.alert_dialog_delete_pregnant_positive_button) { _, _ ->
                 sendDeletePregnantIntent()
+                Log.d("FlowIntent","Se lanzó peticion de intent")
             }
             .show()
     }
 
     private fun sendDeletePregnantIntent() {
-        binding.btnIcSms.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.intentFlow.emit(DetailIntent.DeletePregnant(args.pregnant.id))
+                Log.d("FlowIntent","Se lanzó intent")
             }
-        }
-    }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_toolbar_detail, menu)
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        return when (menuItem.itemId) {
-            R.id.menu_item_eliminar -> {
-                showDeleteAlertDialog()
-                true
-            }
-            R.id.menu_item_editar -> {
-                navigateToEditionView()
-                true
-            }
-            else -> super.onContextItemSelected(menuItem)
-        }
     }
 
 

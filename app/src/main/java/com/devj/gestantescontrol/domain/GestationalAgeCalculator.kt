@@ -34,16 +34,16 @@ class GestationalAgeCalculator @Inject constructor(
         return if (gestationalAge.toFloat() < 42f) gestationalAge else " Postérmino"
     }
 
-    fun getFPP(dataDateForGestationalAge: DataDateForGestationalAge, dateByFUM: String = "0/0/0", dateByUS: String = "0/0/0"): String {
+    fun getFPP(dataDateForGestationalAge: DataDateForGestationalAge, dateByFUM: String? = null, dateByUS: String? = null): String {
         val WEKKS_IF_US_WEEKS_IS_EXACT = 40
         val WEKKS_IF_US_WEEKS_ISNOT_EXACT = 41
         val weeks = if (dataDateForGestationalAge.daysOfUS == 0) WEKKS_IF_US_WEEKS_IS_EXACT - dataDateForGestationalAge.weeksOfUS
         else WEKKS_IF_US_WEEKS_ISNOT_EXACT - dataDateForGestationalAge.weeksOfUS
 
-        return if (dateByFUM != "0/0/0")
+        return if (dateByFUM != null)
             dateCalculator.addWeeksToADate(dateByFUM, 40)
-        else
-            dateCalculator.addWeeksToADate(dateByUS, weeks)
+        else if(dateByUS != null) dateCalculator.addWeeksToADate(dateByUS, weeks)
+        else "Sin datos"
     }
 
 }

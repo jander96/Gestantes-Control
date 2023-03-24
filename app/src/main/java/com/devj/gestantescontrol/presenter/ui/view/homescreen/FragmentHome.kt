@@ -4,7 +4,12 @@ package com.devj.gestantescontrol.presenter.ui.view.homescreen
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -35,6 +40,25 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
         navController = findNavController()
+
+        val menuHost = (requireActivity() as MenuHost)
+        menuHost.addMenuProvider(object : MenuProvider{
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_toolbar,menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.menu_item_eliminar -> {
+                        true
+                    }
+                    R.id.menu_item_editar -> {
+                        true
+                    }
+                    else -> false
+                }
+            }
+        },viewLifecycleOwner)
 
         lifecycleScope.launchWhenResumed{
             viewModel.intentFlow.emit(HomeIntent.EnterAtHome)
