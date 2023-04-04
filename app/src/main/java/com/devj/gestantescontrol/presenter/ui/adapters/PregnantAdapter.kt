@@ -30,6 +30,7 @@ class PregnantAdapter(private val onPressed: (pregnant: PregnantUI) -> Unit) :
         private val binding = GestanteItemBinding.bind(view)
         fun bind(pregnant: PregnantUI) {
             binding.tvNombre.text = pregnant.fullName
+            binding.tvSemanas.text = pregnant.gestationalAgeByFUM
         }
     }
 }

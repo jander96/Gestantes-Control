@@ -9,5 +9,4 @@ sealed class EditionEffect{
     data class SuccessDataFetch(val pregnant: Pregnant) : EditionEffect()
     data class ErrorDataFetch(val throwable: Throwable) : EditionEffect()
 
-    data class FormUpdated(val formulary : Map<ItemOfRequest,Any> ) : EditionEffect()
 }

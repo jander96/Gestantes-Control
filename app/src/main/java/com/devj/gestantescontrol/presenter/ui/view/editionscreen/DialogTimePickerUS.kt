@@ -39,7 +39,7 @@ class DialogDatePickerUS(
                 val day = calendar.dayOfMonth
                 val weeksOnUS = etWeeks.text.toString().toInt()
                 val daysOnUS = etDays.text.toString().toInt()
-                onTimeSelected(year,month,day,weeksOnUS,daysOnUS)
+                onTimeSelected(year,month+1,day,weeksOnUS,daysOnUS)
                 dismiss()
             }
         }

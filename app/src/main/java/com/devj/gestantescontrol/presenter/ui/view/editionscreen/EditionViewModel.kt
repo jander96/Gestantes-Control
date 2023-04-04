@@ -2,11 +2,10 @@ package com.devj.gestantescontrol.presenter.ui.view.editionscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devj.gestantescontrol.domain.ItemOfRequest
 import com.devj.gestantescontrol.domain.actions.EditionAction
 import com.devj.gestantescontrol.domain.intents.EditionIntent
 import com.devj.gestantescontrol.domain.intents.mapToAction
-import com.devj.gestantescontrol.domain.model.EditionViewState
+import com.devj.gestantescontrol.domain.model.*
 import com.devj.gestantescontrol.domain.results.EditionEffect
 import com.devj.gestantescontrol.domain.usescases.GetPregnantById
 import com.devj.gestantescontrol.domain.usescases.InsertPregnant
@@ -19,10 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class EditionViewModel @Inject constructor(
     private val getPregnantById: GetPregnantById,
-    private val insertPregnant: InsertPregnant
+    private val insertPregnant: InsertPregnant,
+    private val formularyMapper: FormularyMapper
 ) : ViewModel() {
+
     private var _viewState = MutableStateFlow(EditionViewState())
-    val viewState : StateFlow<EditionViewState> get() = _viewState
+    val viewState: StateFlow<EditionViewState> get() = _viewState
+
     val intentFlow = MutableSharedFlow<EditionIntent>()
 
     init {
@@ -31,22 +33,24 @@ class EditionViewModel @Inject constructor(
                 it.mapToAction()
             }.map {
                 processor(it)
-            }.collect{
-                _viewState.value = reduce(_viewState.value,it)
+            }.collect {
+                _viewState.value = reduce(_viewState.value, it)
+
             }
         }
     }
+
     private suspend fun processor(action: EditionAction): EditionEffect {
         return when (action) {
             is EditionAction.GetPregnantData -> getPregnantById(action.pregnantId)
-            is EditionAction.InsertPregnant -> insertPregnant(action.pregnant)
-            is EditionAction.UpdateFormulary -> updatePregnantForm(action.data)
+            is EditionAction.InsertPregnant -> insertPregnant(getPregnantFromFormulary(action.data))
         }
     }
 
-    private fun updatePregnantForm(data: Map<ItemOfRequest, Any>): EditionEffect {
-            return EditionEffect.FormUpdated(data)
+    private fun getPregnantFromFormulary(data: Formulary): Pregnant {
+        return formularyMapper.mapToPregnant(data)
     }
+
 
     private suspend fun reduce(
         oldViewState: EditionViewState,
@@ -69,9 +73,6 @@ class EditionViewModel @Inject constructor(
                 pregnant = null,
                 error = null,
                 isThereNewPregnant = true
-            )
-            is EditionEffect.FormUpdated -> oldViewState.copy(
-                formulary = result.formulary
             )
         }
     }

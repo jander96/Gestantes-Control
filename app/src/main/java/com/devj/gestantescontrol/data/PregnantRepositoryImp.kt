@@ -28,6 +28,7 @@ class PregnantRepositoryImp @Inject constructor(
     }
 
     override suspend fun insertPregnant(pregnant: Pregnant) {
+        Log.d("Insert","Se mando insertion al cache")
         cache.insertPregnant(PregnantEntity.fromDomain(pregnant))
     }
 

@@ -1,5 +1,6 @@
 package com.devj.gestantescontrol.domain
 
+import android.util.Log
 import javax.inject.Inject
 
 
@@ -14,6 +15,7 @@ class GestationalAgeCalculator @Inject constructor(
         val daysDiff = dateCalculator.getDaysDiff(dataDateForGestationalAge.dateOfLastMenstruation)
         val gestationalAge =
             "${daysDiff / CANT_DIAS_X_SEMANA}." + "${daysDiff % CANT_DIAS_X_SEMANA}"
+        Log.d("Calculator","gestational age = $gestationalAge")
         return if (gestationalAge.toFloat() < 42f) gestationalAge else " Postérmino"
     }
 

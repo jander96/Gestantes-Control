@@ -17,6 +17,7 @@ class RoomCache @Inject constructor(private val pregnantDao: PregnantDao): Cache
     }
 
     override suspend fun insertPregnant(pregnant: PregnantEntity) {
+        Log.d("Insert","Se esta intentando insertar ${pregnant.toString()}")
         pregnantDao.insertPregnant(pregnant)
     }
 

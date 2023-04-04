@@ -6,5 +6,4 @@ data class EditionViewState(
     val pregnant: Pregnant? = null,
     val error: Throwable?=null,
     val isThereNewPregnant : Boolean = false,
-    val formulary : Map<ItemOfRequest,Any> = mapOf()
 )

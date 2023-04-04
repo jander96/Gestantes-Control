@@ -3,7 +3,6 @@ package com.devj.gestantescontrol.presenter.ui.view.homescreen
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -25,7 +24,6 @@ import com.devj.gestantescontrol.domain.model.*
 import com.devj.gestantescontrol.presenter.model.PregnantUI
 import com.devj.gestantescontrol.presenter.ui.adapters.PregnantAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -60,7 +58,7 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
             }
         },viewLifecycleOwner)
 
-        lifecycleScope.launchWhenResumed{
+        lifecycleScope.launchWhenStarted{
             viewModel.intentFlow.emit(HomeIntent.EnterAtHome)
         }
         setupRecyclerView()
@@ -74,7 +72,7 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
 
 
     private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
+        viewLifecycleOwner.lifecycleScope.launch{
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.viewState.collect { state ->
                     render(state)

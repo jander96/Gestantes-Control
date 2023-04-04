@@ -202,34 +202,52 @@
             android:orientation="horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp">
-            <androidx.appcompat.widget.AppCompatButton
+            <EditText
                 android:id="@+id/btn_fum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FUM"
+                android:hint="FUM"
                 android:drawableEnd="@drawable/ic_calendar"
                 android:layout_weight="1"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/backgroud_buttons"
                 android:padding="8dp"
+                android:inputType="date"
+                android:editable="false"
                 />
-            <androidx.appcompat.widget.AppCompatButton
+            <EditText
                 android:id="@+id/btn_usg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="U/S G"
+                android:hint="U/S G"
                 android:drawableEnd="@drawable/ic_calendar"
                 android:padding="8dp"
                 android:layout_weight="1"
                 android:layout_marginStart="16dp"
                 android:background="@drawable/backgroud_buttons"
+                android:inputType="none"
+                android:editable="false"
                 />
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_day_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios"
+            app:layout_constraintEnd_toEndOf="@id/layout_btn_calendarios"/>
+        <TextView
+            android:id="@+id/tv_weeks_us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios"
+            app:layout_constraintEnd_toStartOf="@id/tv_day_us"/>
+
         <CheckBox
             android:id="@+id/cb_fum_confiable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¿ Es confiable ?"
+            android:text="@string/es_confiable"
             app:layout_constraintStart_toStartOf="@id/layout_btn_calendarios"
             app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios"
             android:layout_marginStart="16dp"
@@ -253,7 +271,7 @@
             app:layout_constraintTop_toTopOf="@id/v_notas_border"
             app:layout_constraintBottom_toBottomOf="@id/v_notas_border"
             android:layout_margin="16dp"
-            android:hint="Notas:"
+            android:hint="@string/notas"
             android:inputType="textMultiLine|textCapSentences"
             android:imeOptions="actionDone"
             android:textSize="15sp"/>

@@ -20,7 +20,7 @@ class DialogDatePickerFUM(
             requireContext(),
             { view,
               year, month, day ->
-                onDateSelected(year, month, day)
+                onDateSelected(year, month+1, day)
             },
             currentYear, currentMonth, currentDay
         )

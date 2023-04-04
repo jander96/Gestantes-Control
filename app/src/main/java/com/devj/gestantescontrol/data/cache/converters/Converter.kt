@@ -18,13 +18,13 @@ class Converter {
         return BitmapFactory.decodeByteArray(byteArray,0,byteArray.size)
     }
     @TypeConverter
-    fun listToString(listOfRiskFactor: List<RiskFactorEmbedded>): String{
-       return listOfRiskFactor.joinToString(",") { it.name }
+    fun listToString(listOfRiskFactor: List<RiskFactorEmbedded>?): String?{
+       return listOfRiskFactor?.joinToString(",") { it.name }
     }
     @TypeConverter
-    fun strtingToRiskFactor(string: String):List<RiskFactorEmbedded>{
+    fun stringToRiskFactor(string: String?):List<RiskFactorEmbedded>{
         val result = mutableListOf<RiskFactorEmbedded>()
-        string.split(",").forEach {
+        string?.split(",")?.forEach {
             result.add(RiskFactorEmbedded(it))
         }
         return result

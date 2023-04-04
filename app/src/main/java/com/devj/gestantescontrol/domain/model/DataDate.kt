@@ -1,7 +1,7 @@
 package com.devj.gestantescontrol.domain.model
 
 data class DataDate(
-    val fUM: String = "01/01/2000",
+    val fUM: String? = null,
     val isFUMReliable: Boolean = false,
     val firstFUG: String? = null,
     val firstUSWeeks: Int? = null,

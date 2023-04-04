@@ -68,7 +68,7 @@ data class RiskFactorEmbedded(val name: String) {
 
 data class DataDateEmbedded(
     @ColumnInfo(name = "fum")
-    val fUM: String,
+    val fUM: String?,
     @ColumnInfo(name = "is_fum_reliable")
     val isFUMReliable: Boolean,
     @ColumnInfo(name = "first_fug")

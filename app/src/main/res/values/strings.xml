@@ -28,4 +28,11 @@
     <string name="alert_dialog_delete_pregnant_negative_button">No</string>
     <string name="alert_dialog_delete_pregnant_title">Eliminar</string>
     <string name="date_picker_us_error_messange">Campos incorrectos o vacios</string>
+    <string name="no_permissions_granted">Debe otorgar los permisos para poder tomar la foto</string>
+    <string name="date_picker_fum_text">%d/%d/%d</string>
+    <string name="date_picker_us_text">%d/%d/%d</string>
+    <string name="weeks">%d</string>
+    <string name="days">%d</string>
+    <string name="es_confiable">¿ Es confiable ?</string>
+    <string name="notas">Notas:</string>
 </resources>
