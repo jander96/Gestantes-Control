@@ -4,30 +4,31 @@ package com.devj.gestantescontrol.presenter.ui.view.homescreen
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.devj.gestantescontrol.domain.GestationalAgeCalculator
 import com.devj.gestantescontrol.domain.actions.HomeAction
 import com.devj.gestantescontrol.domain.intents.HomeIntent
 import com.devj.gestantescontrol.domain.intents.mapToAction
 import com.devj.gestantescontrol.domain.model.HomeViewState
 import com.devj.gestantescontrol.domain.results.HomeEffect
 import com.devj.gestantescontrol.domain.usescases.GetAllPregnant
-import com.devj.gestantescontrol.presenter.AndroidDateCalculator
-import com.devj.gestantescontrol.presenter.model.PregnantUI
+import com.devj.gestantescontrol.presenter.model.UIMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllPregnant: GetAllPregnant,
+    private val uiMapper: UIMapper
 ) : ViewModel() {
 
-    private val gestationalAgeCalculator = GestationalAgeCalculator(AndroidDateCalculator())
+
     private val _mutableViewState = MutableStateFlow(HomeViewState())
     val viewState: StateFlow<HomeViewState> get() = _mutableViewState
 
     val intentFlow = MutableSharedFlow<HomeIntent>()
+    private var calendar: Calendar = Calendar.getInstance()
 
     init {
         Log.d("ViewModel", "Se inicio el viewModel")
@@ -41,7 +42,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    private suspend fun processor(action: HomeAction): HomeEffect {
+    private  fun processor(action: HomeAction): HomeEffect {
         return when (action) {
             HomeAction.LoadListPregnant -> getAllPregnant()
         }
@@ -82,7 +83,7 @@ class HomeViewModel @Inject constructor(
                     isLoading = false,
                     pregnantList = effect.listOfPregnant.map { pregnantList ->
                         pregnantList.map {
-                            PregnantUI.fromDomain(it,gestationalAgeCalculator)
+                          uiMapper.fromDomain(it,calendar)
                         }
                     },
                     isDataBaseEmpty = false

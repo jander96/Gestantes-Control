@@ -8,37 +8,37 @@ import javax.inject.Inject
 
 class AndroidDateCalculator @Inject constructor() : DateCalculator {
     private val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-    private val calendar = Calendar.getInstance()
     private val regexForCorrectDateFormat = Regex(DATE_REGEX_FORMAT)
+
     companion object {
         private const val CANT_MILLIS_X_DIA = 86400000
-        private const val DATE_REGEX_FORMAT = "^(0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[012])\\/\\d{4}\$"
+        private const val DATE_REGEX_FORMAT =
+            "^(0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[012])\\/\\d{4}\$"
         private const val EXCEPTION_MESSAGE = "Invalid string format for date in dd/MM/yyyy"
     }
 
-    override fun getDaysDiff(dateInStringType: String): Int {
+    override fun getDaysDiff(dateInStringType: String, calendar: Calendar): Int {
         return if (dateInStringType.matches(regexForCorrectDateFormat)) {
             val currentDaysInMillis = calendar.timeInMillis
-            val date = dateFormatter.parse(dateInStringType)
-            calendar.time = date!!
-            ((currentDaysInMillis - calendar.timeInMillis) / CANT_MILLIS_X_DIA).toInt()
+            val lastDateInMillis = dateFormatter.parse(dateInStringType)?.time
+            ((currentDaysInMillis - lastDateInMillis!!) / CANT_MILLIS_X_DIA).toInt()
         } else {
             throw Exception(EXCEPTION_MESSAGE)
         }
     }
 
-    override fun addWeeksToADate(dateInStringType: String, weeks: Int): String {
+    override fun addWeeksToADate(dateInStringType: String, weeks: Int, calendar: Calendar): String {
         return if (dateInStringType.matches(regexForCorrectDateFormat)) {
-        calendar.time = dateFormatter.parse(dateInStringType)!!
-        calendar.add(Calendar.WEEK_OF_YEAR, weeks)
+            calendar.time = dateFormatter.parse(dateInStringType)!!
+            calendar.add(Calendar.WEEK_OF_YEAR, weeks)
 
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)+1
-        val year = calendar.get(Calendar.YEAR)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+            val month = calendar.get(Calendar.MONTH) + 1
+            val year = calendar.get(Calendar.YEAR)
 
-        "${day}/${month}/${year}"
+            "${day}/${month}/${year}"
 
-        }else{
+        } else {
             throw Exception(EXCEPTION_MESSAGE)
         }
     }

@@ -8,11 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.devj.gestantescontrol.R
 import com.devj.gestantescontrol.databinding.GestanteItemBinding
-import com.devj.gestantescontrol.domain.DataDateForGestationalAge
-import com.devj.gestantescontrol.domain.GestationalAgeCalculator
 import com.devj.gestantescontrol.presenter.model.PregnantUI
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+
 
 class PregnantAdapter (private val onPressed: (pregnant: PregnantUI) -> Unit) :
     ListAdapter<PregnantUI, PregnantAdapter.PregnantViewHolder>(DiffUtilCallback) {
@@ -33,8 +30,9 @@ class PregnantAdapter (private val onPressed: (pregnant: PregnantUI) -> Unit) :
    class PregnantViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = GestanteItemBinding.bind(view)
         fun bind(pregnant: PregnantUI) {
-            binding.tvNombre.text = pregnant.fullName
+            binding.tvNombre.text = pregnant.fullName + pregnant.fpp
             binding.tvSemanas.text = pregnant.gestationalAgeByFUM
+
         }
     }
 }
