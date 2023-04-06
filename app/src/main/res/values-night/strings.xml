@@ -8,4 +8,5 @@
     <string name="no_permissions_granted">Debe otorgar los permisos para poder tomar la foto</string>
     <string name="es_confiable">¿ Es confiable ?</string>
     <string name="notas">Notas:</string>
+    <string name="telefono">Telefono</string>
 </resources>

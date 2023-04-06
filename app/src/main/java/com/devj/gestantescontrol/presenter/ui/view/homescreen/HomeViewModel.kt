@@ -11,6 +11,7 @@ import com.devj.gestantescontrol.domain.intents.mapToAction
 import com.devj.gestantescontrol.domain.model.HomeViewState
 import com.devj.gestantescontrol.domain.results.HomeEffect
 import com.devj.gestantescontrol.domain.usescases.GetAllPregnant
+import com.devj.gestantescontrol.presenter.AndroidDateCalculator
 import com.devj.gestantescontrol.presenter.model.PregnantUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -20,8 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllPregnant: GetAllPregnant,
-    private val gestationalAgeCalculator: GestationalAgeCalculator
 ) : ViewModel() {
+
+    private val gestationalAgeCalculator = GestationalAgeCalculator(AndroidDateCalculator())
     private val _mutableViewState = MutableStateFlow(HomeViewState())
     val viewState: StateFlow<HomeViewState> get() = _mutableViewState
 
