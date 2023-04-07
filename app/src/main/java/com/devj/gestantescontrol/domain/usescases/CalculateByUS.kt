@@ -7,7 +7,8 @@ import javax.inject.Inject
 
 class CalculateByUS @Inject constructor(private val dateCalculator: DateCalculator) {
 
-    operator fun invoke(date: String,weeks: Int, days: Int,calendar: Calendar): String {
+    operator fun invoke(date: String,weeks: Int, days: Int): String {
+        val calendar = Calendar.getInstance()
         val diffOfDaysFromUS = dateCalculator.getDaysDiff(date,calendar)
         val totalDiffOfDays = days + (diffOfDaysFromUS % Constans.DAYS_BY_WEEKS)
         val weeks =

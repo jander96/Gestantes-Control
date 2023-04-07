@@ -14,7 +14,6 @@ import com.devj.gestantescontrol.presenter.model.UIMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +27,6 @@ class HomeViewModel @Inject constructor(
     val viewState: StateFlow<HomeViewState> get() = _mutableViewState
 
     val intentFlow = MutableSharedFlow<HomeIntent>()
-    private var calendar: Calendar = Calendar.getInstance()
 
     init {
         Log.d("ViewModel", "Se inicio el viewModel")
@@ -83,7 +81,7 @@ class HomeViewModel @Inject constructor(
                     isLoading = false,
                     pregnantList = effect.listOfPregnant.map { pregnantList ->
                         pregnantList.map {
-                          uiMapper.fromDomain(it,calendar)
+                          uiMapper.fromDomain(it)
                         }
                     },
                     isDataBaseEmpty = false

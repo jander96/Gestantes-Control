@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 class CalculateFPP @Inject constructor(private val dateCalculator: DateCalculator) {
 
-    operator fun invoke(calendar: Calendar, fum: String?, usData: USData): String {
-
+    operator fun invoke( fum: String?, usData: USData): String {
+        val calendar = Calendar.getInstance()
         val weeks =
             if (usData.uSWeeks != null && usData.uSDays != null && usData.uSDays == 0)
                 GESTATION_PERIOD_COMPLETED - usData.uSWeeks

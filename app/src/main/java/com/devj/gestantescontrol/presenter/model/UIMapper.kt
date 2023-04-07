@@ -6,7 +6,6 @@ import com.devj.gestantescontrol.domain.model.USData
 import com.devj.gestantescontrol.domain.usescases.CalculateByFUM
 import com.devj.gestantescontrol.domain.usescases.CalculateByUS
 import com.devj.gestantescontrol.domain.usescases.CalculateFPP
-import java.util.Calendar
 import javax.inject.Inject
 
 class UIMapper @Inject constructor(
@@ -15,7 +14,7 @@ class UIMapper @Inject constructor(
     private val calculateFPP: CalculateFPP
 ) {
 
-    fun fromDomain(pregnant: Pregnant, calendar: Calendar): PregnantUI {
+    fun fromDomain(pregnant: Pregnant): PregnantUI {
         return with(pregnant) {
 
             PregnantUI(
@@ -28,7 +27,7 @@ class UIMapper @Inject constructor(
                 else "Sin datos",
                 dataDate.isFUMReliable,
                 if (dataDate.fUM != null)
-                    calculateByFUM(dataDate.fUM, calendar)
+                    calculateByFUM(dataDate.fUM)
                 else "Sin datos",
                 if (dataDate.firstFUG != null &&
                     dataDate.firstUSWeeks != null &&
@@ -38,7 +37,6 @@ class UIMapper @Inject constructor(
                         dataDate.firstFUG,
                         dataDate.firstUSWeeks,
                         dataDate.firstUSDays,
-                        calendar
                     )
                 else "Sin Datos",
                 if (dataDate.secondFUG != null &&
@@ -49,7 +47,6 @@ class UIMapper @Inject constructor(
                         dataDate.secondFUG,
                         dataDate.secondUSWeeks,
                         dataDate.secondUSDays,
-                        calendar
                     )
                 else "Sin Datos",
                 if (dataDate.thirdFUG != null &&
@@ -60,11 +57,9 @@ class UIMapper @Inject constructor(
                         dataDate.thirdFUG,
                         dataDate.thirdUSWeeks,
                         dataDate.thirdUSDays,
-                        calendar
                     )
                 else "Sin Datos",
                 calculateFPP(
-                    calendar,
                     dataDate.fUM,
                     USData(dataDate.firstFUG, dataDate.firstUSWeeks, dataDate.firstUSDays)
                 ),
