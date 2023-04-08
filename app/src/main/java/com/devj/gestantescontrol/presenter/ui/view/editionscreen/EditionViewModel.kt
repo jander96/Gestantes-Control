@@ -7,9 +7,7 @@ import com.devj.gestantescontrol.domain.intents.EditionIntent
 import com.devj.gestantescontrol.domain.intents.mapToAction
 import com.devj.gestantescontrol.domain.model.*
 import com.devj.gestantescontrol.domain.results.EditionEffect
-import com.devj.gestantescontrol.domain.usescases.GetPregnantById
 import com.devj.gestantescontrol.domain.usescases.InsertPregnant
-import com.devj.gestantescontrol.presenter.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,7 +17,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditionViewModel @Inject constructor(
-    private val getPregnantById: GetPregnantById,
     private val insertPregnant: InsertPregnant,
     private val formularyMapper: FormularyMapper
 ) : ViewModel() {
@@ -43,7 +40,6 @@ class EditionViewModel @Inject constructor(
 
     private suspend fun processor(action: EditionAction): EditionEffect {
         return when (action) {
-            is EditionAction.GetPregnantData -> getPregnantById(action.pregnantId)
             is EditionAction.InsertPregnant -> insertPregnant(getPregnantFromFormulary(action.data))
         }
     }
@@ -58,19 +54,12 @@ class EditionViewModel @Inject constructor(
         result: EditionEffect
     ): EditionViewState {
         return when (result) {
-            is EditionEffect.ErrorDataFetch -> oldViewState.copy(
-                pregnant = null,
-                error = result.throwable
-            )
+
             is EditionEffect.ErrorInsertion -> oldViewState.copy(
                 pregnant = null,
                 error = result.throwable
             )
-            is EditionEffect.SuccessDataFetch -> oldViewState.copy(
-                pregnant = result.pregnant,
-                error = null,
-                isRefiled = Event(true)
-            )
+
             EditionEffect.SuccessInsertion -> oldViewState.copy(
                 pregnant = null,
                 error = null,
