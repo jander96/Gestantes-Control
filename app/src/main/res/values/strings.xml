@@ -36,4 +36,6 @@
     <string name="es_confiable">¿ Es confiable ?</string>
     <string name="notas">Notas:</string>
     <string name="telefono">Telefono</string>
+    <string name="wrong_or_incomplete_formulary">Faltan datos o están incorrectos</string>
+    <string name="wrong_float_format">Debe indicar la estatura en metros</string>
 </resources>

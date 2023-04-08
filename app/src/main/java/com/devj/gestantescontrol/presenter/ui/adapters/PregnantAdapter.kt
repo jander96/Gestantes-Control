@@ -30,7 +30,7 @@ class PregnantAdapter (private val onPressed: (pregnant: PregnantUI) -> Unit) :
    class PregnantViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = GestanteItemBinding.bind(view)
         fun bind(pregnant: PregnantUI) {
-            binding.tvNombre.text = pregnant.fullName + pregnant.fpp
+            binding.tvNombre.text = pregnant.name
             binding.tvSemanas.text = pregnant.gestationalAgeByFUM
 
         }

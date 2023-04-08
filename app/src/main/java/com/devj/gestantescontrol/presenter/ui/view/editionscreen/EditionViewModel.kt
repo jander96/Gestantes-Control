@@ -9,9 +9,11 @@ import com.devj.gestantescontrol.domain.model.*
 import com.devj.gestantescontrol.domain.results.EditionEffect
 import com.devj.gestantescontrol.domain.usescases.GetPregnantById
 import com.devj.gestantescontrol.domain.usescases.InsertPregnant
+import com.devj.gestantescontrol.presenter.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 
@@ -33,9 +35,8 @@ class EditionViewModel @Inject constructor(
                 it.mapToAction()
             }.map {
                 processor(it)
-            }.collect {
-                _viewState.value = reduce(_viewState.value, it)
-
+            }.collect { effect ->
+                _viewState.update { reduce(_viewState.value, effect) }
             }
         }
     }
@@ -52,7 +53,7 @@ class EditionViewModel @Inject constructor(
     }
 
 
-    private suspend fun reduce(
+    private fun reduce(
         oldViewState: EditionViewState,
         result: EditionEffect
     ): EditionViewState {
@@ -67,7 +68,8 @@ class EditionViewModel @Inject constructor(
             )
             is EditionEffect.SuccessDataFetch -> oldViewState.copy(
                 pregnant = result.pregnant,
-                error = null
+                error = null,
+                isRefiled = Event(true)
             )
             EditionEffect.SuccessInsertion -> oldViewState.copy(
                 pregnant = null,

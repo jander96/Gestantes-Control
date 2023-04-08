@@ -56,15 +56,16 @@
             android:id="@+id/input_layout_edad"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/input_layout_nombre">
+            app:layout_constraintTop_toBottomOf="@id/input_layout_nombre"
+            app:errorEnabled="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
                 <EditText
                     android:id="@+id/et_edad"
                     android:layout_width="wrap_content"
@@ -90,7 +91,7 @@
                     android:layout_weight="1"
                     android:hint="Talla"
                     android:imeOptions="actionNext"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:textSize="15sp" />
             </LinearLayout>
         </com.google.android.material.textfield.TextInputLayout>

@@ -34,8 +34,9 @@
         android:name="com.devj.gestantescontrol.presenter.ui.view.editionscreen.FragmentEdition"
         android:label="FragmentEdition" >
         <argument
-            android:name="pregnantId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:name="pregnantUI"
+            app:argType="com.devj.gestantescontrol.presenter.model.PregnantUI"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

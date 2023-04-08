@@ -35,7 +35,8 @@ class HomeViewModel @Inject constructor(
                 intent.mapToAction() }
                 .map {action-> processor(action) }
                 .collect { effect ->
-                    _mutableViewState.value = reduceState(_mutableViewState.value, effect) }
+                    _mutableViewState.update {  reduceState(_mutableViewState.value, effect) }
+                }
         }
 
     }

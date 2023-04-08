@@ -100,7 +100,7 @@ class FragmentPregnantDetail : Fragment(R.layout.fragment_detail) {
     private fun navigateToEditionView() {
         navController.navigate(
             FragmentPregnantDetailDirections
-                .actionFragmentPregnantDetailToFragmentEdition(args.pregnant.id)
+                .actionFragmentPregnantDetailToFragmentEdition(args.pregnant)
         )
     }
 

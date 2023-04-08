@@ -7,3 +7,10 @@ fun String.ifEmptyReturnNull(): String? {
         null
     }
 }
+fun String.ifNullReturnEmpty(): String{
+    return if (this == "null"){
+        ""
+    }else{
+        this
+    }
+}

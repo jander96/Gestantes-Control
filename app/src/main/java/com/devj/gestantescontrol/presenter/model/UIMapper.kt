@@ -6,6 +6,7 @@ import com.devj.gestantescontrol.domain.model.USData
 import com.devj.gestantescontrol.domain.usescases.CalculateByFUM
 import com.devj.gestantescontrol.domain.usescases.CalculateByUS
 import com.devj.gestantescontrol.domain.usescases.CalculateFPP
+import com.devj.gestantescontrol.utils.ifNullReturnEmpty
 import javax.inject.Inject
 
 class UIMapper @Inject constructor(
@@ -19,16 +20,21 @@ class UIMapper @Inject constructor(
 
             PregnantUI(
                 id,
-                "$name $lastName",
-                age.toString(),
+                name,
+                lastName,
+                age.toString().ifNullReturnEmpty(),
                 phoneNumber ?: "",
+                measures?.size.toString().ifNullReturnEmpty(),
+                measures?.weight.toString().ifNullReturnEmpty(),
                 if (measures != null)
                     getIMC(measures.weight, measures.size).toString()
                 else "Sin datos",
                 dataDate.isFUMReliable,
+                dataDate.fUM ?: "",
                 if (dataDate.fUM != null)
                     calculateByFUM(dataDate.fUM)
                 else "Sin datos",
+                dataDate.firstFUG ?: "",
                 if (dataDate.firstFUG != null &&
                     dataDate.firstUSWeeks != null &&
                     dataDate.firstUSDays != null
@@ -39,6 +45,7 @@ class UIMapper @Inject constructor(
                         dataDate.firstUSDays,
                     )
                 else "Sin Datos",
+                dataDate.secondFUG ?: "",
                 if (dataDate.secondFUG != null &&
                     dataDate.secondUSWeeks != null &&
                     dataDate.secondUSDays != null
@@ -49,6 +56,7 @@ class UIMapper @Inject constructor(
                         dataDate.secondUSDays,
                     )
                 else "Sin Datos",
+                dataDate.secondFUG ?: "",
                 if (dataDate.thirdFUG != null &&
                     dataDate.thirdUSWeeks != null &&
                     dataDate.thirdUSDays != null

@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.ContactsContract
 import android.provider.MediaStore
-import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
@@ -39,6 +38,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
         const val US_PICKER_TAG = "DATE_PICKER_US"
         const val FUM_PICKER_TAG = "DATE_PICKER_FUM"
         const val FILE_PROVIDER_AUTHORITY = "com.devj.gestantescontrol.fileprovider"
+        const val FLOAT_FORMAT = "^\\d\\.\\d{2}\$"
     }
 
     private var _binding: FragmentEdicionBinding? = null
@@ -79,15 +79,15 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
         (requireActivity() as MenuHost).addMenuProvider(this, viewLifecycleOwner)
         setupDatePickers()
         datePickerFUM = DialogDatePickerFUM { year, month, day ->
-            binding.btnFum?.setText(getString(R.string.date_picker_fum_text, day,month,year) )
+            binding.btnFum?.setText(getString(R.string.date_picker_fum_text, day, month, year))
         }
         datePickerUS = DialogDatePickerUS { year, month, day, weeksOnUS, daysOnUS ->
-            binding.btnUsg?.setText(getString(R.string.date_picker_us_text, day,month,year) )
-            binding.tvWeeksUs?.text = getString(R.string.weeks,weeksOnUS)
-            binding.tvDayUs?.text = getString(R.string.days,daysOnUS)
+            binding.btnUsg?.setText(getString(R.string.date_picker_us_text, day, month, year))
+            binding.tvWeeksUs?.text = getString(R.string.weeks, weeksOnUS)
+            binding.tvDayUs?.text = getString(R.string.days, daysOnUS)
         }.apply { isCancelable = true }
 
-        if (args.pregnantId != 0) refillFieldsIntent()
+        if (args.pregnantUI != null) refillFieldsIntent()
         observeState()
 
         binding.foto.setOnClickListener {
@@ -102,6 +102,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
 
     }
 
+
     private fun setupDatePickers() {
         binding.btnFum?.setOnClickListener {
             datePickerFUM.show(requireActivity().supportFragmentManager, FUM_PICKER_TAG)
@@ -115,10 +116,28 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewState.collect { state ->
+
                     render(state)
                 }
             }
         }
+    }
+
+    private fun refillFieldsIntent() {
+            with(binding){
+                etNombre.setText(args.pregnantUI?.name)
+                etApellidos.setText(args.pregnantUI?.lastName)
+                etEdad.setText(args.pregnantUI?.age ?: "")
+                etTalla?.setText(args.pregnantUI?.size ?: "")
+                etPeso?.setText(args.pregnantUI?.weight ?: "")
+                etTelefono?.setText(args.pregnantUI?.phoneNumber)
+                btnFum?.setText(args.pregnantUI?.fum)
+                btnUsg?.setText(args.pregnantUI?.firstUS)
+                etNotas?.setText(args.pregnantUI?.notes)
+                if (args.pregnantUI?.isFUMReliable != null){
+                    cbFumConfiable?.isChecked = args.pregnantUI?.isFUMReliable!!
+                }
+            }
     }
 
     private fun render(state: EditionViewState) {
@@ -131,15 +150,6 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
             etTalla?.setText(pregnant.measures?.size.toString())
             etTelefono?.setText(pregnant.phoneNumber)
             etNotas?.setText(pregnant.notes)
-        }
-    }
-
-
-    private fun refillFieldsIntent() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.intentFlow.emit(EditionIntent.RefillFields(args.pregnantId))
-            }
         }
     }
 
@@ -197,17 +207,40 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.menu_item_guardar -> {
-                sendSaveIntent()
+                if (isFormularyReady()) sendSaveIntent()
+                else showWrongDataView()
                 true
             }
             else -> false
         }
     }
 
+
+    private fun isFormularyReady(): Boolean {
+        return with(binding) {
+            etNombre.text.toString().isNotEmpty() &&
+                    etApellidos.text.toString().isNotEmpty() &&
+                    (btnFum?.text.toString().isNotEmpty() || btnUsg?.text.toString()
+                        .isNotEmpty()) && isSizeInCorrectFormat()
+        }
+    }
+
+    private fun showWrongDataView() {
+        if (isSizeInCorrectFormat()) binding.inputLayoutEdad.error =
+            getString(R.string.wrong_float_format)
+        Snackbar.make(binding.root, R.string.wrong_or_incomplete_formulary, Snackbar.LENGTH_SHORT)
+            .show()
+    }
+
+
+    private fun isSizeInCorrectFormat(): Boolean {
+        val regex = Regex(FLOAT_FORMAT)
+        return binding.etTalla?.text.toString().matches(regex)
+    }
+
     private fun sendSaveIntent() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                Log.d("Insert","Se manda intent de insert")
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.intentFlow.emit(EditionIntent.SaveDataPregnant(getFormulary()))
             }
         }
@@ -216,7 +249,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
     private fun getFormulary(): Formulary {
         return with(binding) {
             Formulary(
-                id = args.pregnantId,
+                id = args.pregnantUI?.id ?: 0,
                 name = etNombre.text.toString(),
                 lastName = etApellidos.text.toString(),
                 age = etEdad.text.toString().ifEmptyReturnNull(),
