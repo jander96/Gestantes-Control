@@ -38,7 +38,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
         const val US_PICKER_TAG = "DATE_PICKER_US"
         const val FUM_PICKER_TAG = "DATE_PICKER_FUM"
         const val FILE_PROVIDER_AUTHORITY = "com.devj.gestantescontrol.fileprovider"
-        const val FLOAT_FORMAT = "^\\d\\.\\d{2}\$"
+        const val FLOAT_FORMAT = "^\\d\\.\\d{2}\$ |^$"
     }
 
     private var _binding: FragmentEdicionBinding? = null
@@ -226,7 +226,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
     }
 
     private fun showWrongDataView() {
-        if (isSizeInCorrectFormat()) binding.inputLayoutEdad.error =
+         if (!isSizeInCorrectFormat())binding.inputLayoutEdad.error =
             getString(R.string.wrong_float_format)
         Snackbar.make(binding.root, R.string.wrong_or_incomplete_formulary, Snackbar.LENGTH_SHORT)
             .show()
