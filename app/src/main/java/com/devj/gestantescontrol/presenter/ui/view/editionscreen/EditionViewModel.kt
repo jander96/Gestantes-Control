@@ -8,6 +8,7 @@ import com.devj.gestantescontrol.domain.intents.mapToAction
 import com.devj.gestantescontrol.domain.model.*
 import com.devj.gestantescontrol.domain.results.EditionEffect
 import com.devj.gestantescontrol.domain.usescases.InsertPregnant
+import com.devj.gestantescontrol.presenter.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -57,7 +58,7 @@ class EditionViewModel @Inject constructor(
 
             is EditionEffect.ErrorInsertion -> oldViewState.copy(
                 pregnant = null,
-                error = result.throwable
+                error = Event(result.throwable)
             )
 
             EditionEffect.SuccessInsertion -> oldViewState.copy(
