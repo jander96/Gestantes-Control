@@ -104,13 +104,17 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
 
 
     private fun setupDatePickers() {
-
+        binding.btnFum?.isFocusable = false
         binding.btnFum?.setOnClickListener {
-
-            datePickerFUM.show(requireActivity().supportFragmentManager, FUM_PICKER_TAG)
+            val fumPicker = requireActivity().supportFragmentManager.findFragmentByTag(FUM_PICKER_TAG)
+            if (fumPicker == null)
+                datePickerFUM.show(requireActivity().supportFragmentManager, FUM_PICKER_TAG)
         }
+        binding.btnUsg?.isFocusable = false
         binding.btnUsg?.setOnClickListener {
-            datePickerUS.show(requireActivity().supportFragmentManager, US_PICKER_TAG)
+            val usPicker = requireActivity().supportFragmentManager.findFragmentByTag(US_PICKER_TAG)
+            if (usPicker == null)
+                datePickerUS.show(requireActivity().supportFragmentManager, US_PICKER_TAG)
         }
     }
 

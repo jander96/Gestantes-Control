@@ -152,7 +152,6 @@
                 android:hint="FUM"
                 android:layout_weight="1"
                 android:layout_marginEnd="16dp"
-                android:editable="false"
                 />
 
             <EditText
@@ -162,7 +161,6 @@
                 android:hint="U/S"
                 android:layout_weight="1"
                 android:layout_marginStart="16dp"
-                android:editable="false"
                 />
         </LinearLayout>
         <ImageView
