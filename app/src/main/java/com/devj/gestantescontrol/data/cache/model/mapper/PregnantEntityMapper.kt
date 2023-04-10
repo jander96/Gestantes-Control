@@ -1,11 +1,11 @@
 package com.devj.gestantescontrol.data.cache.model.mapper
 
 import com.devj.gestantescontrol.data.cache.model.PregnantEntity
+import com.devj.gestantescontrol.domain.model.Measures
 import com.devj.gestantescontrol.domain.model.Pregnant
 import javax.inject.Inject
 
 class PregnantEntityMapper @Inject constructor(
-    private val measuresMapper: MeasuresEmbeddedMapper,
     private val dataDateEmbeddedMapper: DataDateEmbeddedMapper,
     private val riskFactorEmbeddedMapper: RiskFactorEmbeddedMapper
     ): CacheMapper<PregnantEntity,Pregnant> {
@@ -16,7 +16,7 @@ class PregnantEntityMapper @Inject constructor(
             lastName = cacheEntity.lastName,
             age = cacheEntity.age,
             phoneNumber = cacheEntity.phoneNumber,
-            measures = if (cacheEntity.measures != null)measuresMapper.mapToDomain(cacheEntity.measures) else null,
+            measures =  Measures(cacheEntity.measures?.weight,cacheEntity.measures?.size),
             dataDate = dataDateEmbeddedMapper.mapToDomain(cacheEntity.dataDate),
             riskFactors = cacheEntity.riskFactors?.map { riskFactorEmbeddedMapper.mapToDomain(it) },
             notes = cacheEntity.notes,

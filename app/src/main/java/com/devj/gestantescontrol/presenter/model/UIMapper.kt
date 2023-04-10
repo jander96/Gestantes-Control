@@ -26,7 +26,7 @@ class UIMapper @Inject constructor(
                 phoneNumber ?: "",
                 measures?.size.toString().ifNullReturnEmpty(),
                 measures?.weight.toString().ifNullReturnEmpty(),
-                if (measures != null)
+                if (measures?.size != null && measures.weight != null)
                     getIMC(measures.weight, measures.size).toString()
                 else "Sin datos",
                 dataDate.isFUMReliable,

@@ -5,7 +5,6 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.devj.gestantescontrol.domain.model.DataDate
-import com.devj.gestantescontrol.domain.model.Measures
 import com.devj.gestantescontrol.domain.model.Pregnant
 import com.devj.gestantescontrol.domain.model.RiskFactor
 
@@ -37,9 +36,7 @@ data class PregnantEntity(
                 lastName = pregnant.lastName,
                 age = pregnant.age,
                 phoneNumber = pregnant.phoneNumber,
-                measures = if (pregnant.measures != null)
-                    MeasuresEmbedded.fromDomain(pregnant.measures)
-                else null,
+                measures = MeasuresEmbedded(pregnant.measures?.weight,pregnant.measures?.size),
                 dataDate = DataDateEmbedded.fromDomain(pregnant.dataDate),
                 riskFactors = pregnant.riskFactors?.map { RiskFactorEmbedded.fromDomain(it) },
                 notes = pregnant.notes,
@@ -50,15 +47,9 @@ data class PregnantEntity(
 }
 
 data class MeasuresEmbedded(
-    val weight: Double,
-    val size: Double
-) {
-    companion object {
-        fun fromDomain(measures: Measures): MeasuresEmbedded {
-            return MeasuresEmbedded(measures.weight, measures.size)
-        }
-    }
-}
+    val weight: Double?,
+    val size: Double?
+)
 
 data class RiskFactorEmbedded(val name: String) {
     companion object {

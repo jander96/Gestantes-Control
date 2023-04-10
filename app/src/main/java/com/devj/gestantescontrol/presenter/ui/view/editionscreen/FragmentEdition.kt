@@ -38,7 +38,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
         const val US_PICKER_TAG = "DATE_PICKER_US"
         const val FUM_PICKER_TAG = "DATE_PICKER_FUM"
         const val FILE_PROVIDER_AUTHORITY = "com.devj.gestantescontrol.fileprovider"
-        const val FLOAT_FORMAT = "^\\d\\.\\d{2}\$ |^$"
+        const val FLOAT_FORMAT = "^\\d\\.\\d{2}\$|^$"
     }
 
     private var _binding: FragmentEdicionBinding? = null
@@ -104,7 +104,9 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
 
 
     private fun setupDatePickers() {
+
         binding.btnFum?.setOnClickListener {
+
             datePickerFUM.show(requireActivity().supportFragmentManager, FUM_PICKER_TAG)
         }
         binding.btnUsg?.setOnClickListener {
@@ -124,20 +126,20 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
     }
 
     private fun refillFieldsIntent() {
-            with(binding){
-                etNombre.setText(args.pregnantUI?.name)
-                etApellidos.setText(args.pregnantUI?.lastName)
-                etEdad.setText(args.pregnantUI?.age ?: "")
-                etTalla?.setText(args.pregnantUI?.size ?: "")
-                etPeso?.setText(args.pregnantUI?.weight ?: "")
-                etTelefono?.setText(args.pregnantUI?.phoneNumber)
-                btnFum?.setText(args.pregnantUI?.fum)
-                btnUsg?.setText(args.pregnantUI?.firstUS)
-                etNotas?.setText(args.pregnantUI?.notes)
-                if (args.pregnantUI?.isFUMReliable != null){
-                    cbFumConfiable?.isChecked = args.pregnantUI?.isFUMReliable!!
-                }
+        with(binding) {
+            etNombre.setText(args.pregnantUI?.name)
+            etApellidos.setText(args.pregnantUI?.lastName)
+            etEdad.setText(args.pregnantUI?.age ?: "")
+            etTalla?.setText(args.pregnantUI?.size ?: "")
+            etPeso?.setText(args.pregnantUI?.weight ?: "")
+            etTelefono?.setText(args.pregnantUI?.phoneNumber)
+            btnFum?.setText(args.pregnantUI?.fum)
+            btnUsg?.setText(args.pregnantUI?.firstUS)
+            etNotas?.setText(args.pregnantUI?.notes)
+            if (args.pregnantUI?.isFUMReliable != null) {
+                cbFumConfiable?.isChecked = args.pregnantUI?.isFUMReliable!!
             }
+        }
     }
 
     private fun render(state: EditionViewState) {
@@ -217,16 +219,17 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
 
 
     private fun isFormularyReady(): Boolean {
+        1.1
         return with(binding) {
             etNombre.text.toString().isNotEmpty() &&
                     etApellidos.text.toString().isNotEmpty() &&
-                    (btnFum?.text.toString().isNotEmpty() || btnUsg?.text.toString()
-                        .isNotEmpty()) && isSizeInCorrectFormat()
+                    (btnFum?.text.toString().isNotEmpty() || btnUsg?.text.toString().isNotEmpty())
+                    && isSizeInCorrectFormat()
         }
     }
 
     private fun showWrongDataView() {
-         if (!isSizeInCorrectFormat())binding.inputLayoutEdad.error =
+        if (!isSizeInCorrectFormat()) binding.inputLayoutEdad.error =
             getString(R.string.wrong_float_format)
         Snackbar.make(binding.root, R.string.wrong_or_incomplete_formulary, Snackbar.LENGTH_SHORT)
             .show()

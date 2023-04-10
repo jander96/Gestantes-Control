@@ -12,9 +12,7 @@ class FormularyMapper @Inject constructor() {
                 lastName = lastName,
                 age = age?.toInt(),
                 phoneNumber = phoneNumber,
-                measures = if (weight != null && size != null)
-                    Measures(weight.toDouble(), size.toDouble())
-                else null,
+                Measures(weight?.toDouble(), size?.toDouble()),
                 dataDate = DataDate(
                     fUM,
                     isFUMReliable,
