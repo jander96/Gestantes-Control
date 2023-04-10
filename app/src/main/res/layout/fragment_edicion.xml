@@ -153,15 +153,32 @@
                 android:layout_weight="1"
                 android:layout_marginEnd="16dp"
                 />
-
-            <EditText
-                android:id="@+id/btn_usg"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="U/S"
+                android:orientation="vertical"
                 android:layout_weight="1"
-                android:layout_marginStart="16dp"
-                />
+                android:layout_marginStart="16dp">
+                <EditText
+                    android:id="@+id/btn_usg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/u_s" />
+                <EditText
+                    android:id="@+id/btn_us_second"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/u_s"
+                    android:visibility="gone"/>
+                <EditText
+                    android:id="@+id/btn_us_third"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/u_s"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
         </LinearLayout>
         <ImageView
             android:id="@+id/iv_add_us"

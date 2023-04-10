@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 
 class DialogDatePickerUS(
-    private val onTimeSelected: (year: Int, month: Int, day: Int, weeksOnUS: Int, dayOnUS: Int) -> Unit
+    private val onTimeSelected: (year: Int, month: Int, day: Int, weeksOnUS: Int, dayOnUS: Int,usTrimester: Int) -> Unit
 ) : DialogFragment() {
 
     override fun onCreateView(
@@ -22,6 +22,7 @@ class DialogDatePickerUS(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val usTrimester = arguments?.getInt(FragmentEdition.PICKER_KEY_ARGS)
         val view = inflater.inflate(R.layout.fragment_date_picker, container, false)
         view.findViewById<Button>(R.id.btn_aceptar).setOnClickListener {
             val etWeeks = view.findViewById<EditText>(R.id.et_weeks)
@@ -39,7 +40,7 @@ class DialogDatePickerUS(
                 val day = calendar.dayOfMonth
                 val weeksOnUS = etWeeks.text.toString().toInt()
                 val daysOnUS = etDays.text.toString().toInt()
-                onTimeSelected(year,month+1,day,weeksOnUS,daysOnUS)
+                onTimeSelected(year,month+1,day,weeksOnUS,daysOnUS,usTrimester!!)
                 dismiss()
             }
         }

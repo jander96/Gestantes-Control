@@ -10,11 +10,13 @@ import android.os.Environment
 import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.view.*
+import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.core.content.FileProvider
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -27,6 +29,8 @@ import com.devj.gestantescontrol.domain.intents.EditionIntent
 import com.devj.gestantescontrol.domain.model.EditionViewState
 import com.devj.gestantescontrol.domain.model.Formulary
 import com.devj.gestantescontrol.utils.ifEmptyReturnNull
+import com.devj.gestantescontrol.utils.setGoneView
+import com.devj.gestantescontrol.utils.setViewVisibility
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -37,6 +41,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
     companion object {
         const val US_PICKER_TAG = "DATE_PICKER_US"
         const val FUM_PICKER_TAG = "DATE_PICKER_FUM"
+        const val PICKER_KEY_ARGS = "us_trimester"
         const val FILE_PROVIDER_AUTHORITY = "com.devj.gestantescontrol.fileprovider"
         const val FLOAT_FORMAT = "^\\d\\.\\d{2}\$|^$"
     }
@@ -72,23 +77,59 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
                 contactPickerResults.launch()
             }
         }
+    private var touchCounter = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentEdicionBinding.bind(view)
         (requireActivity() as MenuHost).addMenuProvider(this, viewLifecycleOwner)
-        setupDatePickers()
+        if (args.pregnantUI != null) refillFieldsIntent()
+        observeState()
+
         datePickerFUM = DialogDatePickerFUM { year, month, day ->
             binding.btnFum?.setText(getString(R.string.date_picker_fum_text, day, month, year))
         }
-        datePickerUS = DialogDatePickerUS { year, month, day, weeksOnUS, daysOnUS ->
-            binding.btnUsg?.setText(getString(R.string.date_picker_us_text, day, month, year))
+        datePickerUS = DialogDatePickerUS { year, month, day, weeksOnUS, daysOnUS, usTrimester ->
+            if (usTrimester == 1) binding.btnUsg?.setText(
+                getString(
+                    R.string.date_picker_us_text,
+                    day,
+                    month,
+                    year
+                )
+            )
+            if (usTrimester == 2) binding.btnUsSecond?.setText(
+                getString(
+                    R.string.date_picker_us_text,
+                    day,
+                    month,
+                    year
+                )
+            )
+            if (usTrimester == 3) binding.btnUsThird?.setText(
+                getString(
+                    R.string.date_picker_us_text,
+                    day,
+                    month,
+                    year
+                )
+            )
             binding.tvWeeksUs?.text = getString(R.string.weeks, weeksOnUS)
             binding.tvDayUs?.text = getString(R.string.days, daysOnUS)
         }.apply { isCancelable = true }
+        setupDatePickers(binding.btnFum, datePickerFUM, FUM_PICKER_TAG)
+        setupDatePickers(binding.btnUsg, datePickerUS, US_PICKER_TAG, 1)
+        setupDatePickers(binding.btnUsSecond, datePickerUS, US_PICKER_TAG, 2)
+        setupDatePickers(binding.btnUsThird, datePickerUS, US_PICKER_TAG, 3)
 
-        if (args.pregnantUI != null) refillFieldsIntent()
-        observeState()
+        binding.ivAddUs?.setOnClickListener {
+            touchCounter++
+            if (touchCounter == 1) binding.btnUsSecond?.setGoneView(false)
+            if (touchCounter == 2) binding.btnUsThird?.setGoneView(false)
+            if (touchCounter == 3) binding.ivAddUs?.setViewVisibility(false)
+        }
+
+
 
         binding.foto.setOnClickListener {
             permissionLauncher.launch(
@@ -103,26 +144,31 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
     }
 
 
-    private fun setupDatePickers() {
-        binding.btnFum?.isFocusable = false
-        binding.btnFum?.setOnClickListener {
-            val fumPicker = requireActivity().supportFragmentManager.findFragmentByTag(FUM_PICKER_TAG)
-            if (fumPicker == null)
-                datePickerFUM.show(requireActivity().supportFragmentManager, FUM_PICKER_TAG)
+    private fun setupDatePickers(
+        editText: EditText?,
+        datePicker: DialogFragment,
+        pickerTag: String,
+        usTrimester: Int = 0
+    ) {
+        editText?.isFocusable = false
+        val args = Bundle().apply {
+            putInt(PICKER_KEY_ARGS, usTrimester)
         }
-        binding.btnUsg?.isFocusable = false
-        binding.btnUsg?.setOnClickListener {
-            val usPicker = requireActivity().supportFragmentManager.findFragmentByTag(US_PICKER_TAG)
-            if (usPicker == null)
-                datePickerUS.show(requireActivity().supportFragmentManager, US_PICKER_TAG)
+        editText?.setOnClickListener {
+            val picker = requireActivity().supportFragmentManager.findFragmentByTag(pickerTag)
+            if (picker == null) {
+                datePicker.arguments = args
+                datePicker.show(requireActivity().supportFragmentManager, pickerTag)
+            }
+
         }
+
     }
 
     private fun observeState() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewState.collect { state ->
-
                     render(state)
                 }
             }

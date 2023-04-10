@@ -38,4 +38,5 @@
     <string name="telefono">Telefono</string>
     <string name="wrong_or_incomplete_formulary">Faltan datos o están incorrectos</string>
     <string name="wrong_float_format">Debe indicar la estatura en metros</string>
+    <string name="u_s">U/S</string>
 </resources>
