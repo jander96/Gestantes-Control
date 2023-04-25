@@ -2,42 +2,49 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
+
         <ImageView
             android:id="@+id/foto"
             android:layout_width="88dp"
             android:layout_height="88dp"
             android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/input_layout_nombre"
-            app:layout_constraintTop_toTopOf="@id/input_layout_nombre"
+            android:src="@drawable/image_galery_pick"
             app:layout_constraintBottom_toBottomOf="@id/input_layout_nombre"
-            android:src="@drawable/image_galery_pick" />
+            app:layout_constraintEnd_toStartOf="@id/input_layout_nombre"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/input_layout_nombre" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_nombre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/foto"
             app:layout_constraintTop_toTopOf="parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <EditText
                     android:id="@+id/et_nombre"
+                    style="@style/Widget.Material3.AutoCompleteTextView.FilledBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:hint="Nombre"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:textSize="15sp" />
+
                 <EditText
                     android:id="@+id/et_apellidos"
                     android:layout_width="match_parent"
@@ -45,27 +52,27 @@
                     android:hint="Apellidos"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp" />
             </LinearLayout>
 
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_edad"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:padding="8dp"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/input_layout_nombre"
-            app:errorEnabled="true">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_nombre">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/et_edad"
                     android:layout_width="wrap_content"
@@ -75,6 +82,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="number"
                     android:textSize="15sp" />
+
                 <EditText
                     android:id="@+id/et_peso"
                     android:layout_width="wrap_content"
@@ -84,6 +92,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="numberDecimal"
                     android:textSize="15sp" />
+
                 <EditText
                     android:id="@+id/et_talla"
                     android:layout_width="wrap_content"
@@ -96,44 +105,41 @@
             </LinearLayout>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_telefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_edad">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_telefono"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/input_layout_edad">
+                android:gravity="start|center"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/et_telefono"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="start|center">
+                    android:layout_weight="3"
+                    android:hint="@string/telefono"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:textSize="15sp" />
 
-                    <EditText
-                        android:id="@+id/et_telefono"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:hint="@string/telefono"
-                        android:imeOptions="actionNext"
-                        android:inputType="phone"
-                        android:textSize="15sp"/>
-                    <ImageView
-                        android:id="@+id/ibtn_telefono"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_contact"
-                        />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/ibtn_telefono"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_contact" />
+            </LinearLayout>
 
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:id="@+id/layout_btn_calendarios"
@@ -141,101 +147,110 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/input_layout_telefono"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_add_us"
-            >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_telefono">
+
             <EditText
                 android:id="@+id/btn_fum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="FUM"
-                android:layout_weight="1"
                 android:layout_marginEnd="16dp"
-                />
+                android:layout_weight="1"
+                android:hint="FUM" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:layout_marginStart="16dp">
+                android:orientation="vertical">
+
                 <EditText
                     android:id="@+id/btn_usg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/u_s" />
+
                 <EditText
                     android:id="@+id/btn_us_second"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/u_s"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
+
                 <EditText
                     android:id="@+id/btn_us_third"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/u_s"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </LinearLayout>
 
         </LinearLayout>
+
         <ImageView
             android:id="@+id/iv_add_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/layout_btn_calendarios"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="@id/layout_btn_calendarios"
-            android:src="@drawable/ic_add"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/layout_btn_calendarios" />
+
         <TextView
             android:id="@+id/tv_day_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios"
-            app:layout_constraintEnd_toEndOf="@id/layout_btn_calendarios"/>
+            tools:text="1"
+            app:layout_constraintEnd_toEndOf="@id/layout_btn_calendarios"
+            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios" />
+
         <TextView
             android:id="@+id/tv_weeks_us"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:text="12"
             android:layout_marginEnd="8dp"
-            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios"
-            app:layout_constraintEnd_toStartOf="@id/tv_day_us"/>
+            app:layout_constraintEnd_toStartOf="@id/tv_day_us"
+            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios" />
 
         <CheckBox
             android:id="@+id/cb_fum_confiable"
+            style="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/es_confiable"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textStyle="italic"
             app:layout_constraintStart_toStartOf="@id/layout_btn_calendarios"
-            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios"
-            />
+            app:layout_constraintTop_toBottomOf="@id/layout_btn_calendarios" />
+
         <View
             android:id="@+id/v_notas_border"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/cb_fum_confiable"
-            app:layout_constraintStart_toStartOf="@id/layout_btn_calendarios"
-            app:layout_constraintEnd_toEndOf="@id/layout_btn_calendarios"
+            android:background="@drawable/background_notas"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@drawable/background_notas"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/layout_btn_calendarios"
+            app:layout_constraintTop_toBottomOf="@id/cb_fum_confiable" />
 
         <EditText
             android:id="@+id/et_notas"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/v_notas_border"
-            app:layout_constraintEnd_toEndOf="@id/v_notas_border"
-            app:layout_constraintTop_toTopOf="@id/v_notas_border"
-            app:layout_constraintBottom_toBottomOf="@id/v_notas_border"
             android:layout_margin="16dp"
             android:hint="@string/notas"
-            android:inputType="textMultiLine|textCapSentences"
             android:imeOptions="actionDone"
-            android:textSize="15sp"/>
-
-
-
+            android:inputType="textMultiLine|textCapSentences"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/v_notas_border"
+            app:layout_constraintEnd_toEndOf="@id/v_notas_border"
+            app:layout_constraintStart_toStartOf="@id/v_notas_border"
+            app:layout_constraintTop_toTopOf="@id/v_notas_border" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

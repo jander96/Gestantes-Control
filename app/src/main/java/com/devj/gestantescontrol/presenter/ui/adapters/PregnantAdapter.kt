@@ -1,5 +1,6 @@
 package com.devj.gestantescontrol.presenter.ui.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ class PregnantAdapter (private val onPressed: (pregnant: PregnantUI) -> Unit) :
         fun bind(pregnant: PregnantUI) {
             binding.tvNombre.text = pregnant.name
             binding.tvSemanas.text = pregnant.gestationalAgeByFUM
+            binding.iVGestante.setImageURI(Uri.parse(pregnant.photo))
 
         }
     }

@@ -85,7 +85,6 @@ class FragmentHome : Fragment(R.layout.fragment_home) {
         state.pregnantList.collect{
             homeAdapter.submitList(it)
         }
-        if (state.isDataBaseEmpty) binding.contenidoLayout.textvTest.text = "La base de datos esta vacia"
     }
 
     private fun setupRecyclerView() {

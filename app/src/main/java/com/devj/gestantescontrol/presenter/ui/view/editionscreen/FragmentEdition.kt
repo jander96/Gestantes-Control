@@ -129,8 +129,6 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
             if (touchCounter == 3) binding.ivAddUs?.setViewVisibility(false)
         }
 
-
-
         binding.foto.setOnClickListener {
             permissionLauncher.launch(
                 arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -139,8 +137,6 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
         binding.ibtnTelefono?.setOnClickListener {
             permissionContactLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
-
-
     }
 
 
@@ -160,9 +156,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
                 datePicker.arguments = args
                 datePicker.show(requireActivity().supportFragmentManager, pickerTag)
             }
-
         }
-
     }
 
     private fun observeState() {
@@ -189,6 +183,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
             if (args.pregnantUI?.isFUMReliable != null) {
                 cbFumConfiable?.isChecked = args.pregnantUI?.isFUMReliable!!
             }
+            foto.setImageURI(Uri.parse(args.pregnantUI?.photo))
         }
     }
 
@@ -206,10 +201,10 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
     }
 
     private fun launchCamera() {
-        val timeStamp = "${System.currentTimeMillis() / 100000}"
+        val timeStamp = "${System.currentTimeMillis()}"
         val filePicture =
             File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), timeStamp)
-        uri = FileProvider.getUriForFile(requireContext(), FILE_PROVIDER_AUTHORITY, filePicture)
+       uri = FileProvider.getUriForFile(requireContext(), FILE_PROVIDER_AUTHORITY, filePicture)
 
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
             putExtra(MediaStore.EXTRA_OUTPUT, uri)
@@ -218,6 +213,7 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
         if (intent.resolveActivity(requireContext().packageManager) != null) {
             photoPickerResults.launch(intent)
         }
+
     }
 
     private fun getContactFromUri(uri: Uri) {
@@ -320,11 +316,10 @@ class FragmentEdition : Fragment(R.layout.fragment_edicion), MenuProvider {
                 thirdFUG = null,
                 thirdUSWeeks = null,
                 thirdUSDays = null,
-                notes = etNotas?.text.toString().ifEmptyReturnNull()
-
+                notes = etNotas?.text.toString().ifEmptyReturnNull(),
+                photo = uri.toString()
             )
         }
-
     }
 
 
